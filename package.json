@@ -1,0 +1,22 @@
+{
+  "name": "tcselles-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrrabier/TCSelles-Back.git"
+  },
+  "author": "Jérôme Rabier",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jrrabier/TCSelles-Back/issues"
+  },
+  "homepage": "https://github.com/jrrabier/TCSelles-Back#readme",
+  "dependencies": {
+    "mongodb": "^3.5.5"
+  }
+}
