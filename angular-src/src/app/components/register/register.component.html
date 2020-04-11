@@ -1,0 +1,63 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">S'inscrire</h5>
+    <form (submit)="onRegisterSubmit()">
+      <div class="row justify-content-between">
+        <div class="form-group">
+          <label for="lastName">Nom</label>
+          <input type="text" [(ngModel)]="last_name" name="last_name" class="form-control" id="lastName">
+        </div>
+        <div class="form-group">
+          <label for="firstName">Prénom</label>
+          <input type="text" [(ngModel)]="first_name" name="first_name" class="form-control" id="firstName" aria-describedby="emailHelp">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Adresse email</label>
+        <input type="email" [(ngModel)]="email" name="email" class="form-control" id="email">
+      </div>
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input type="password" [(ngModel)]="password" name="password" class="form-control" id="password">
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirmez votre mot de passe</label>
+        <input type="password" name="confirmPassword" class="form-control" id="confirmPassword">
+      </div>
+      <div class="form-group">
+        <label for="avatar">Avatar</label>
+        <input type="upload" [(ngModel)]="avatar" name="avatar" class="form-control" id="avatar">
+      </div>
+      <div class="form-group">
+        <label for="rank">Classement</label>
+        <input type="text" [(ngModel)]="rank" name="rank" class="form-control" id="rank">
+      </div>
+      <div class="form-group">
+        <label for="address">Adresse postale</label>
+        <input type="text" [(ngModel)]="address" name="address" class="form-control" id="adress">
+      </div>
+      <div class="form-group">
+        <label for="postalCode">Code Postal</label>
+        <input type="text" [(ngModel)]="postal_code" name="postal_code" class="form-control" id="postalCode">
+      </div>
+      <div class="form-group">
+        <label for="city">Ville</label>
+        <input type="text" [(ngModel)]="city" name="city" class="form-control" id="city">
+      </div>
+      <div class="form-group">
+        <label for="birthDate">Date de naissance</label>
+        <input type="date" [(ngModel)]="birth_date" name="birth_date" class="form-control" id="birthDate">
+      </div>
+      <div class="form-group">
+        <label for="mobile">Téléphone</label>
+        <input type="phone" [(ngModel)]="mobile" name="mobile" class="form-control" id="mobile">
+      </div>
+      <div class="form-group">
+        <label for="sex">Sexe</label>
+        <input type="text" [(ngModel)]="sex" name="sex" class="form-control" id="sex">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>

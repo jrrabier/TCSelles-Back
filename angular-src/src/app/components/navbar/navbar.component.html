@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand">
+    <img src="../../../assets/logos/tcsellesIconeWhite.svg" class="d-inline-block align-top" alt="logo tennis club selles sur cher">
+    TC Selles
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTCSelles" aria-controls="navbarTCSelles" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarTCSelles">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" [routerLinkActive]="'active'">
+          <a class="nav-link" routerLink="/home">Accueil</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item" [routerLinkActive]="'active'">
+          <a class="nav-link" routerLink="/login">Se connecter</a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="'active'">
+          <a class="nav-link" routerLink="/register">S'inscrire</a>
+        </li>
+      </ul>
+  </div>
+</nav>

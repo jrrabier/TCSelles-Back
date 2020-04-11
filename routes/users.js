@@ -15,7 +15,7 @@ router.post('/register', (req, res, next) => {
         password: req.body.password,
         avatar: req.body.avatar,
         rank: req.body.rank,
-        adress: req.body.adress,
+        address: req.body.address,
         postal_code: req.body.postal_code,
         city: req.body.city,
         birth_date: req.body.birth_date,
