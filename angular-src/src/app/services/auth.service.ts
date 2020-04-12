@@ -23,14 +23,14 @@ export class AuthService {
     // Set headers
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
 
-    return this.http.post<any>('http://localhost:3000/users/register', user, {headers: this.headers});
+    return this.http.post<any>('users/register', user, {headers: this.headers});
   }
 
   authenticateUser(user) {
     // Set headers
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
 
-    return this.http.post<any>('http://localhost:3000/users/authenticate', user, {headers: this.headers});
+    return this.http.post<any>('users/authenticate', user, {headers: this.headers});
   }
 
   getProfile() {
@@ -38,7 +38,7 @@ export class AuthService {
     this.headers = new HttpHeaders({'Authorization': this.authToken});
     this.headers = this.headers.append('Content-Type', 'application/json');
 
-    return this.http.get<User>('http://localhost:3000/users/profile', {headers: this.headers});
+    return this.http.get<User>('users/profile', {headers: this.headers});
   }
 
   storeUserData(token, user) {
