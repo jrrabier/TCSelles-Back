@@ -11,6 +11,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { FormsModule } from "@angular/forms";
 import { ValidateService } from "./services/validate.service";
 import { FlashMessagesModule, FlashMessagesService } from "angular2-flash-messages";
+import { HttpClientModule } from "@angular/common/http";
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
   declarations: [
@@ -25,11 +28,21 @@ import { FlashMessagesModule, FlashMessagesService } from "angular2-flash-messag
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    FlashMessagesModule
+    FlashMessagesModule,
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return sessionStorage.getItem('id_token');
+        }
+      }
+    })
   ],
   providers: [
     ValidateService,
-    FlashMessagesService
+    FlashMessagesService,
+    JwtHelperService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
