@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { User } from '../models/user';
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class AuthService {
     // Set headers
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
 
-    return this.http.post<any>('users/authenticate', user, {headers: this.headers});
+    return this.http.post<any>(environment.url + 'users/authenticate', user, {headers: this.headers});
   }
 
   getProfile() {
@@ -38,7 +39,7 @@ export class AuthService {
     this.headers = new HttpHeaders({'Authorization': this.authToken});
     this.headers = this.headers.append('Content-Type', 'application/json');
 
-    return this.http.get<User>('users/profile', {headers: this.headers});
+    return this.http.get<User>(environment.url + 'users/profile', {headers: this.headers});
   }
 
   storeUserData(token, user) {
@@ -54,7 +55,8 @@ export class AuthService {
   }
 
   loggedIn() {
-    return !this.jwtHelper.isTokenExpired();
+    const token = sessionStorage.getItem('id_token');
+    return !this.jwtHelper.isTokenExpired(token);
   }
 
   logout() {

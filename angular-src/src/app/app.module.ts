@@ -15,6 +15,10 @@ import { HttpClientModule } from "@angular/common/http";
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './guards/auth.guard';
 
+export function tokenGetter() {
+  return sessionStorage.getItem('id_token');
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,9 +36,7 @@ import { AuthGuard } from './guards/auth.guard';
     HttpClientModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: () => {
-          return sessionStorage.getItem('id_token');
-        }
+        tokenGetter: tokenGetter
       }
     })
   ],
