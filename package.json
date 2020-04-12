@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jrrabier/TCSelles-Back.git"
+    "url": "git+https://github.com/jrrabier/TCSelles.git"
   },
   "author": "Jérôme Rabier",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jrrabier/TCSelles-Back/issues"
+    "url": "https://github.com/jrrabier/TCSelles/issues"
   },
-  "homepage": "https://github.com/jrrabier/TCSelles-Back#readme",
+  "homepage": "https://github.com/jrrabier/TCSelles#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
