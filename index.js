@@ -25,13 +25,14 @@ const app = express();
 
 const users = require('./routes/users');
 
-const port = process.env.port || 8080;
+const port = 3000;
 
 //CORS Middleware
 app.use(cors());
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Body Parser Middleware
 app.use(bodyParser.json());
@@ -44,9 +45,9 @@ require('./config/passport')(passport);
 
 app.use('/users', users);
 
-app.get('/', (req, res) => {
-    res.send('Invalid Endpoint');
-});
+// app.get('/', (req, res) => {
+//     res.send('Invalid Endpoint');
+// });
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
