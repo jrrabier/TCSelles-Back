@@ -6,7 +6,7 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const config = require('./config/database')
 
-mongoose.connect(config.database, { useNewUrlParser: true });
+mongoose.connect(config.database, { useNewUrlParser: true, useUnifiedTopology: true });
 
 var db = mongoose.connection;
 
@@ -27,30 +27,29 @@ const users = require('./routes/users');
 
 const port = process.env.port || 8080;
 
-//CORS Middleware
-app.use(cors());
-
-// Set static folder
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-// Body Parser Middleware
-app.use(bodyParser.json());
-
 // Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
 require('./config/passport')(passport);
 
+//CORS Middleware
+app.use(cors());
+
+// Body Parser Middleware
+app.use(bodyParser.json());
+
 app.use('/users', users);
 
-app.get('/', (req, res) => {
-    res.send('Invalid Endpoint');
-});
+// Set static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
+});
+
+app.get('/', (req, res) => {
+    res.send('Invalid Endpoint');
 });
 
 app.listen(port, () => {
