@@ -25,7 +25,7 @@ const app = express();
 
 const users = require('./routes/users');
 
-const port = process.env.port || 8080;
+const port = process.env.PORT || 24828;
 
 // Passport Middleware
 app.use(passport.initialize());
