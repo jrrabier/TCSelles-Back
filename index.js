@@ -6,7 +6,7 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const config = require('./config/database')
 
-mongoose.connect(config.database);
+mongoose.connect(config.database, { useNewUrlParser: true });
 
 var db = mongoose.connection;
 
@@ -45,9 +45,9 @@ require('./config/passport')(passport);
 
 app.use('/users', users);
 
-// app.get('/', (req, res) => {
-//     res.send('Invalid Endpoint');
-// });
+app.get('/', (req, res) => {
+    res.send('Invalid Endpoint');
+});
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
