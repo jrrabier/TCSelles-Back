@@ -8,20 +8,7 @@ const User = require('../models/user')
 
 // Register
 router.post('/register', (req, res, next) => {
-    let newUser = new User({
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
-        password: req.body.password,
-        avatar: req.body.avatar,
-        rank: req.body.rank,
-        address: req.body.address,
-        postal_code: req.body.postal_code,
-        city: req.body.city,
-        birth_date: req.body.birth_date,
-        mobile: req.body.mobile,
-        sex: req.body.sex,
-    });
+    let newUser = new User(req.body);
 
     User.addUser(newUser, (err, user) => {
         if (err) {
@@ -33,10 +20,9 @@ router.post('/register', (req, res, next) => {
 });
 
 router.post('/authenticate', (req, res, next) => {
-    const email = req.body.email;
-    const password = req.body.password;
+    const login = req.body;
 
-    User.getUserByEmail(email, (err, user) => {
+    User.getUserByEmail(login.email, (err, user) => {
         if (err) {
             throw err;
         }
@@ -44,7 +30,7 @@ router.post('/authenticate', (req, res, next) => {
             return res.json({success: false, msg: `Cet utilisateur n'existe pas`})    
         }
 
-        User.comparePassword(password, user.password, (err, isMatch) => {
+        User.comparePassword(login.password, user.password, (err, isMatch) => {
             if (err) {
                 throw err;
             }
@@ -60,7 +46,8 @@ router.post('/authenticate', (req, res, next) => {
                         id: user._id,
                         last_name: user.last_name,
                         first_name: user.first_name,
-                        email: user.email
+                        email: user.email,
+                        sex: user.sex
                     }
                 });
             } else {
@@ -70,7 +57,7 @@ router.post('/authenticate', (req, res, next) => {
     });
 });
 
-router.get('/profile', passport.authenticate('jwt', {session: false}), function(req, res) {
+router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res) => {
     res.json(req.user);
 });
 

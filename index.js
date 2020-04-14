@@ -6,13 +6,13 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const config = require('./config/database')
 
-mongoose.connect(config.database, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(config.databaseDev, { useNewUrlParser: true, useUnifiedTopology: true });
 
 var db = mongoose.connection;
 
 // Connexion a la base de données
 db.on('connected', () => {
-    console.log(`Connected to database ${config.database}`);
+    console.log(`Connected to database ${config.databaseDev}`);
     
 });
 
