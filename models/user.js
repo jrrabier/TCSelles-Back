@@ -21,7 +21,7 @@ const UserSchema = mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: '/assets/default-avatar.png'
+        default: '/assets/avatars/default-avatar.png'
     },
     rank: {
         type: String,

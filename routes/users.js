@@ -47,6 +47,7 @@ router.post('/authenticate', (req, res, next) => {
                         last_name: user.last_name,
                         first_name: user.first_name,
                         email: user.email,
+                        avatar: user.avatar,
                         sex: user.sex
                     }
                 });
