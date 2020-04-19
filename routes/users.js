@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const config = require('../config/database')
+const config = require('../config/database');
+const transporter = require('../services/emailService');
 
-const User = require('../models/user')
+const User = require('../models/user');
 
 // Register
 router.post('/register', (req, res, next) => {
@@ -52,7 +53,7 @@ router.post('/authenticate', (req, res, next) => {
                     }
                 });
             } else {
-                return res.json({success: false, msg: 'Mauvais mot de passe'})  
+                return res.json({success: false, msg: 'Email ou mot de passe incorrect !'})  
             }
         });
     });
@@ -60,6 +61,28 @@ router.post('/authenticate', (req, res, next) => {
 
 router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res) => {
     res.json(req.user);
+});
+
+router.post('/forgot-password', (req, res) => {
+    const email = req.body.email;
+
+    User.getUserByEmail(email, (err, user) => {
+        if (err) {
+            throw err;
+        }
+        if (!user) {
+            return res.json({success: false, msg: 'Cette adresse mail n\'est associée à aucun compte'})
+        } else {
+            let mailOptions = {
+                from: '"Tennis Club Selles-sur-Cher" <jrmrabier@gmail.com>',
+                to: email,
+                subject: 'Test',
+                html: transporter.forgotPasswordTemplate()
+            }
+            transporter.sendMail(mailOptions);
+            res.send('Mail bien envoyé !');
+        }
+    });
 });
 
 module.exports = router;
