@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const config = require('../config/database');
 
 const UserSchema = mongoose.Schema({
     first_name: {
@@ -28,13 +27,9 @@ const UserSchema = mongoose.Schema({
         required: true
     },
     address: {
-        type: String
-    },
-    postal_code: {
-        type: String
-    },
-    city: {
-        type: String
+        street: String,
+        postal_code: String,
+        city: String
     },
     birth_date: {
         type: Date,
@@ -46,10 +41,21 @@ const UserSchema = mongoose.Schema({
     sex: {
         type: String,
         required: true
-    }
+    },
+    licence_number: String,
+    role: {
+        type: String,
+        default: 'visitor',
+        required: true 
+    },
+    pswToken: String
 });
 
 const User = module.exports = mongoose.model('User', UserSchema);
+
+module.exports.getAllUsers = (callback) => {
+    User.find({}, callback);
+}
 
 module.exports.getUserById = (id, callback) => {
     User.findById(id, callback);

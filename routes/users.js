@@ -63,26 +63,42 @@ router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res
     res.json(req.user);
 });
 
-router.post('/forgot-password', (req, res) => {
-    const email = req.body.email;
+router.route('/forgot-password')
+    .post((req, res) => {
+        const email = req.body.email;
 
-    User.getUserByEmail(email, (err, user) => {
-        if (err) {
-            throw err;
-        }
-        if (!user) {
-            return res.json({success: false, msg: 'Cette adresse mail n\'est associée à aucun compte'})
-        } else {
-            let mailOptions = {
-                from: '"Tennis Club Selles-sur-Cher" <jrmrabier@gmail.com>',
-                to: email,
-                subject: 'Test',
-                html: transporter.forgotPasswordTemplate()
+        User.getUserByEmail(email, (err, user) => {
+            if (err) {
+                throw err;
             }
-            transporter.sendMail(mailOptions);
-            res.send('Mail bien envoyé !');
-        }
+            if (!user) {
+                return res.json({success: false, msg: 'Cette adresse mail n\'est associée à aucun compte'})
+            } else {
+                let userId = user._id;
+                const token = jwt.sign({userId}, user.password, {
+                    expiresIn: 2 * 60 // 2 minutes
+                });
+
+                let mailOptions = {
+                    from: '"Tennis Club Selles-sur-Cher" <jrmrabier@gmail.com>',
+                    to: email,
+                    subject: 'Test',
+                    html: transporter.forgotPasswordTemplate(token)
+                }
+                transporter.sendMail(mailOptions, (err) => {
+                    if (!err) {
+                        return res.json({success: true, msg:'Un mail vient de vous être envoyé à l\'adresse fournie'});
+                    } else {
+                        return done(err);
+                    }
+                });
+            }
+        });
     });
-});
+
+router.route('/reset-password')
+    .post(passport.authenticate('jwt', {session: false}), (req, res) => {
+
+    })
 
 module.exports = router;

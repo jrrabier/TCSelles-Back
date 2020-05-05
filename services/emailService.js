@@ -13,12 +13,7 @@ transporter = module.exports = nodemailer.createTransport({
     }
 });
 
-module.exports.forgotPasswordTemplate = () => {
-    fs.readFile(path.join(__dirname, '../assets/email-templates/forgot-password.html'), 'utf8', (err, content) => {
-        if (err) {
-            throw err;
-        } else {
-            return content.toString();
-        }
-    });
+module.exports.forgotPasswordTemplate = (token) => {
+    return `<h3>Mot de passe oublié ?</h3>
+    <a href="http://localhost:24828/forgot-password?token=${token}">Changer mon mot de passe</a>`
 }
