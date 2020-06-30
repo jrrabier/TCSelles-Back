@@ -4,6 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const transporter = require('../services/emailService');
+const validationService = require('../services/validationService')
 
 const User = require('../models/user');
 
@@ -13,9 +14,9 @@ router.post('/register', (req, res, next) => {
 
     User.addUser(newUser, (err, user) => {
         if (err) {
-            res.json({success: false, msg: 'Echec à la création du User'});
+            res.status(200).json({success: false, msg: 'Echec à la création du User'});
         } else {
-            res.json({success: true, msg: 'User enregistré'});
+            res.status(201).json({success: true, msg: 'User enregistré'});
         }
     });
 });
@@ -28,7 +29,7 @@ router.post('/authenticate', (req, res, next) => {
             throw err;
         }
         if (!user) {
-            return res.json({success: false, msg: `Cet utilisateur n'existe pas`})    
+            return res.status(200).json({success: false, msg: `Cet utilisateur n'existe pas`})    
         }
 
         User.comparePassword(login.password, user.password, (err, isMatch) => {
@@ -53,7 +54,7 @@ router.post('/authenticate', (req, res, next) => {
                     }
                 });
             } else {
-                return res.json({success: false, msg: 'Email ou mot de passe incorrect !'})  
+                return res.status(200).json({success: false, msg: 'Email ou mot de passe incorrect !'})  
             }
         });
     });
@@ -72,33 +73,51 @@ router.route('/forgot-password')
                 throw err;
             }
             if (!user) {
-                return res.json({success: false, msg: 'Cette adresse mail n\'est associée à aucun compte'})
+                return res.status(200).json({success: false, msg: 'Cette adresse mail n\'est associée à aucun compte'})
             } else {
-                let userId = user._id;
-                const token = jwt.sign({userId}, user.password, {
-                    expiresIn: 2 * 60 // 2 minutes
+                const token = jwt.sign({user}, config.secret, {
+                    expiresIn: 2 * 60 * 60 // 2 heures
                 });
 
                 let mailOptions = {
                     from: '"Tennis Club Selles-sur-Cher" <jrmrabier@gmail.com>',
                     to: email,
                     subject: 'Test',
-                    html: transporter.forgotPasswordTemplate(token)
+                    html: transporter.forgotPasswordTemplate(`Bearer ${token}`)
                 }
-                transporter.sendMail(mailOptions, (err) => {
+                transporter.sendMail(mailOptions, (err, info) => {
                     if (!err) {
-                        return res.json({success: true, msg:'Un mail vient de vous être envoyé à l\'adresse fournie'});
+                        return res.status(200).json({success: true, msg:'Un mail vient de vous être envoyé à l\'adresse fournie'});
                     } else {
-                        return done(err);
+                        return info;
                     }
                 });
             }
         });
-    });
+    })
 
 router.route('/reset-password')
     .post(passport.authenticate('jwt', {session: false}), (req, res) => {
-
+        let isSamePassword = req.body.newPsw === req.body.newPswConfirm;
+        console.log(isSamePassword);
+        
+        if (isSamePassword) {
+            if (validationService.isPasswordValid(req.body.newPsw)) {
+                console.log(req.user, req.body);
+                User.updatePassword(req.user, req.body.newPsw, (err, doc) => {
+                    if (err) {
+                        throw err;
+                    }
+                    if (doc) {
+                        return res.status(200).json({success: true, msg: `Votre mot de passe a bien été mis à jour`})
+                    }
+                });
+            } else {
+                return res.status(200).json({success: false, msg:`Votre mot de passe doit contenir au moins 8 caractères, une lettre majuscule, un chiffre et un caractère spécial (@$!%*#?&)`});
+            }
+        } else {
+            return res.status(200).json({success: false, msg:`Les deux mots de passe doivent être identiques`});
+        }
     })
 
 module.exports = router;

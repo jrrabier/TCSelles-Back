@@ -86,3 +86,15 @@ module.exports.comparePassword = (candidatePassword, hash, callback) => {
     });
 }
 
+module.exports.updatePassword = (user, newPassword, callback) => {
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newPassword, salt, (err, hash) => {
+            if (err) {
+                throw err;
+            }
+            user.password = hash;
+            user.save(callback);
+        });
+    });
+}
+
