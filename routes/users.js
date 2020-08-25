@@ -10,13 +10,13 @@ const User = require('../models/user');
 
 // Register
 router.post('/register', (req, res, next) => {
-    let newUser = new User(req.body);
+    let newUser = req.body;
 
     User.addUser(newUser, (err, user) => {
         if (err) {
             res.status(200).json({success: false, msg: 'Echec à la création du User'});
         } else {
-            res.status(201).json({success: true, msg: 'User enregistré'});
+            res.status(201).json({success: true, msg: 'Votre compte a bien été crée'});
         }
     });
 });

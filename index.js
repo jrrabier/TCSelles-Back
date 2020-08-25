@@ -3,23 +3,21 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
-const mongoose = require('mongoose');
+const mysql = require('mysql');
 const config = require('./config/database');
 
-mongoose.connect(config.databaseDev, { useNewUrlParser: true, useUnifiedTopology: true });
+if (process.env.NODE_ENV == 'development') {
+    connection = mysql.createConnection(config.databaseDev);
+} else {
+    connection = mysql.createConnection(config.databaseProd);
+}
 
-var db = mongoose.connection;
-
-// Connexion a la base de données
-db.on('connected', () => {
-    console.log(`Connected to database ${config.databaseDev}`);
-    
-});
-
-db.on('error', (err) => {
-    console.error(`Erreur : ${err}`);
-    
-});
+connection.connect((err) => {
+    if (err) {
+      console.error('error connecting: ' + err.stack);
+      return;
+    }
+  });
 
 const app = express();
 
