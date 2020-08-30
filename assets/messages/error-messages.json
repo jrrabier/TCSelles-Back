@@ -1,0 +1,7 @@
+{
+    "noAccount": "Aucun compte n'est associé à cette adresse mail !",
+    "accountNotCreated": "Erreur lors de la création du compte",
+    "incorrectLogin": "Email ou mot de passe incorrect !",
+    "invalidPsw": "Votre mot de passe doit contenir au moins 8 caractères, une lettre majuscule, un chiffre et un caractère spécial (@$!%*#?&)",
+    "mailExist": "Cette adresse mail est déjà utilisée"
+}

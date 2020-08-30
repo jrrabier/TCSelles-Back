@@ -1,6 +1,6 @@
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
-const User = require('../models/user');
+const User = require('../models/users');
 const config = require('../config/database');
 
 module.exports = (passport) => {
@@ -9,7 +9,7 @@ module.exports = (passport) => {
     opts.secretOrKey = config.secret;
     passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
         
-        User.getUserById(jwt_payload.user._id, (err, user) => {
+        User.getUserById(jwt_payload.user.id, (err, user) => {
             if (err) {
                 return done(err, false);
             } 
