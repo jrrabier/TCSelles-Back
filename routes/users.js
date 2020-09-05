@@ -10,7 +10,7 @@ const successMsg = require('../assets/messages/success-messages.json');
 const infoMsg = require('../assets/messages/info-messages.json');
 const mixinService = require('../services/mixinService')
 
-const User = require('../models/users');
+const Users = require('../models/users');
 
 // Register
 router.post('/register', (req, res, next) => {
@@ -18,7 +18,7 @@ router.post('/register', (req, res, next) => {
     let isMailValid = validationService.isMailValid(newUser.mail);
 
 
-    User.addUser(newUser, (err, user) => {
+    Users.addUser(newUser, (err, user) => {
         if (err) {
             res.status(200).json({success: false, msg: errorMsg.accountNotCreated});
         } else {
@@ -30,15 +30,15 @@ router.post('/register', (req, res, next) => {
 router.post('/authenticate', (req, res, next) => {
     const login = req.body;
 
-    User.getUserByMail(login.mail, (err, user) => {
+    Users.getUserByMail(login.mail, (err, user) => {
         if (err) {
             throw err;
         }
-        if (user == undefined) {
+        if (!user) {
             return res.status(200).json({success: false, msg: errorMsg.noAccount})    
         }
 
-        User.comparePassword(login.psw, user.psw, (err, isMatch) => {
+        Users.comparePassword(login.psw, user.psw, (err, isMatch) => {
             if (err) {
                 throw err;
             }
@@ -72,6 +72,18 @@ router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res
 
 router.post('/update', (req, res) => {
     let updatedUser = req.body;
+
+    if (updatedUser.mail) {
+        Users.getUserMailById(updatedUser.id, (err, mail) => {
+            if (err) {
+                throw err;
+            }
+            if (mail) {
+                return res.status(200).json({success: false, msg: errorMsg.mailExist})  
+            }
+        });
+    }
+
     if (updatedUser.psw) {
         mixinService.validateAndHashPassword(updatedUser.psw, (err, hash) => {
             if (err) {
@@ -79,7 +91,7 @@ router.post('/update', (req, res) => {
             }
             updatedUser.psw = hash;
 
-            User.updateUser(updatedUser, (err, result) => {
+            Users.updateUser(updatedUser, (err, result) => {
                 if (err) {
                     throw err;
                 }
@@ -87,7 +99,7 @@ router.post('/update', (req, res) => {
             });
         });
     } else {
-        User.updateUser(updatedUser, (err, result) => {
+        Users.updateUser(updatedUser, (err, result) => {
             if (err) {
                 throw err;
             }
@@ -100,7 +112,7 @@ router.route('/forgot-password')
     .post((req, res) => {
         const mail = req.body.mail;
 
-        User.getUserByMail(mail, (err, user) => {
+        Users.getUserByMail(mail, (err, user) => {
             if (err) {
                 throw err;
             }
@@ -135,7 +147,7 @@ router.route('/reset-password')
         if (isSamePassword) {
             if (validationService.isPasswordValid(req.body.newPsw)) {
                 console.log(req.user, req.body);
-                User.updatePassword(req.user, req.body.newPsw, (err, doc) => {
+                Users.updatePassword(req.user, req.body.newPsw, (err, doc) => {
                     if (err) {
                         throw err;
                     }

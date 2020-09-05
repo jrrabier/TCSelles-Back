@@ -2,11 +2,17 @@ const bcrypt = require('bcryptjs');
 const errorMsg = require('../assets/messages/error-messages.json')
 
 module.exports.getAllUsers = (callback) => {
-    User.find({}, callback);
+    var req = 'SELECT * FROM users';
+    connection.query(req, (err, results) => {
+            if (err) {
+                throw err;
+            }
+        callback(null, results);
+    });
 }
 
 module.exports.getUserById = (id, callback) => {
-    var req = 'SELECT mail, lastname, firstname, birthdate, phone, avatar, address, postalcode, city, licence_nb, lvl_id, sex_id, club_id ' + 
+    var req = 'SELECT id, mail, lastname, firstname, birthdate, phone, avatar, address, postalcode, city, licence_nb, lvl_id, sex_id, club_id ' + 
     'FROM users ' +
     'WHERE id = ?';
 
@@ -15,6 +21,16 @@ module.exports.getUserById = (id, callback) => {
             throw err;
         }
         callback(null, results);
+    });
+}
+
+module.exports.getUserMailById = (id, callback) => {
+    var req = 'SELECT mail FROM users WHERE id = ?';
+    connection.query(req, id, (err, mail) => {
+            if (err) {
+                throw err;
+            }
+        callback(null, mail);
     });
 }
 
@@ -50,9 +66,21 @@ module.exports.addUser = (newUser, callback) => {
 }
 
 module.exports.updateUser = (updatedUser, callback) => {
-    var req = 'UPDATE users SET ?';
+    var req = 'UPDATE users SET ? WHERE id = ?';
 
-    connection.query(req, updatedUser, (err, results) => {
+    connection.query(req, [updatedUser, updatedUser.id], (err, results) => {
+        if (err) {
+            throw err;
+        }
+        console.log(results);
+        callback(null, results);
+    });
+}
+
+module.exports.deleteUser = (id, callback) => {
+    var req = 'DELETE FROM users WHERE id = ?';
+
+    connection.query(req, id, (err, results) => {
         if (err) {
             throw err;
         }
