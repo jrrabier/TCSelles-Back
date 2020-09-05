@@ -131,14 +131,14 @@ router.route('/forgot-password')
                 }
                 transporter.sendMail(mailOptions, (err, info) => {
                     if (!err) {
-                        return res.status(200).json({success: true, msg:`Un mail vient de vous être envoyé à l'adresse fournie`});
+                        return res.status(200).json({success: true, msg: successMsg.emailSent});
                     } else {
                         return info;
                     }
                 });
             }
         });
-    })
+    });
 
 router.route('/reset-password')
     .post(passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -152,15 +152,24 @@ router.route('/reset-password')
                         throw err;
                     }
                     if (doc) {
-                        return res.status(200).json({success: true, msg: `Votre mot de passe a bien été mis à jour`})
+                        return res.status(200).json({success: true, msg: successMsg.passwordUpdated})
                     }
                 });
             } else {
                 return res.status(200).json({success: false, msg: errorMsg.invalidPsw});
             }
         } else {
-            return res.status(200).json({success: false, msg:`Les deux mots de passe doivent être identiques`});
+            return res.status(200).json({success: false, msg: infoMsg.samePassword});
         }
-    })
+    });
+
+router.post('/delete', (req, res) => {
+    Users.deleteUser(req.id, (err, result) => {
+        if (err) throw err;
+        if (result) {
+            return res.status(200).json({success: true, msg: successMsg.playerDeleted});
+        }
+    });
+});
 
 module.exports = router;
