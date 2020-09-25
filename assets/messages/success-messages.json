@@ -3,5 +3,7 @@
     "accountUpdated": "Votre compte a bien été mis à jour",
     "playerDeleted": "Ce joueur a bien été supprimé",
     "passwordUpdated": "Votre mot de passe a bien été mis à jour",
-    "emailSent": "Un mail vient de vous être envoyé à l'adresse fournie"
+    "emailSent": "Un mail vient de vous être envoyé à l'adresse fournie",
+    "meetingCreated": "La rencontre a bien été crée",
+    "meetingUpdated": "La rencontre a bien été mise à jour"
 }
