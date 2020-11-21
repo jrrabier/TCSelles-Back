@@ -23,9 +23,11 @@ connection.connect((err) => {
 
 const app = express();
 
-const users = require('./routes/users');
-const meetings = require('./routes/meetings');
-// const articles = require('./routes/articles');
+const users = require('./controllers/users');
+const meetings = require('./controllers/meetings');
+const availabilities = require('./controllers/availabilities');
+const articles = require('./controllers/articles');
+const comments = require('./controllers/comments');
 
 const port = process.env.PORT || 24828;
 
@@ -42,8 +44,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/users', users);
-// app.use('/articles', articles);
+app.use('/articles', articles);
 app.use('/meetings', meetings);
+app.use('/availabilities', availabilities);
+app.use('/comments', comments);
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));

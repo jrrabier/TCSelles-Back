@@ -4,18 +4,18 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const transporter = require('../services/emailService');
-const validationService = require('../services/validationService');
+const validationServices = require('../services/validationServices');
 const errorMsg = require('../assets/messages/error-messages.json');
 const successMsg = require('../assets/messages/success-messages.json');
 const infoMsg = require('../assets/messages/info-messages.json');
-const mixinService = require('../services/mixinService')
+const mixinServices = require('../services/mixinServices')
 
 const Users = require('../models/users');
 
 // Register
 router.post('/register', (req, res, next) => {
     let newUser = req.body;
-    let isMailValid = validationService.isMailValid(newUser.mail);
+    let isMailValid = validationServices.isMailValid(newUser.mail);
 
 
     Users.addUser(newUser, (err, user) => {
@@ -85,7 +85,7 @@ router.post('/update', (req, res) => {
     }
 
     if (updatedUser.psw) {
-        mixinService.validateAndHashPassword(updatedUser.psw, (err, hash) => {
+        mixinServices.validateAndHashPassword(updatedUser.psw, (err, hash) => {
             if (err) {
                 res.status(200).json({success: false, msg: err.message});
             }
@@ -145,7 +145,7 @@ router.route('/reset-password')
         let isSamePassword = req.body.newPsw === req.body.newPswConfirm;
         
         if (isSamePassword) {
-            if (validationService.isPasswordValid(req.body.newPsw)) {
+            if (validationServices.isPasswordValid(req.body.newPsw)) {
                 console.log(req.user, req.body);
                 Users.updatePassword(req.user, req.body.newPsw, (err, doc) => {
                     if (err) {

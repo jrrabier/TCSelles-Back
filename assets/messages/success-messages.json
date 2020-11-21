@@ -1,9 +1,15 @@
 {
-    "accountCreated": "Votre compte a bien été crée",
+    "accountCreated": "Votre compte a bien été créé",
     "accountUpdated": "Votre compte a bien été mis à jour",
     "playerDeleted": "Ce joueur a bien été supprimé",
     "passwordUpdated": "Votre mot de passe a bien été mis à jour",
     "emailSent": "Un mail vient de vous être envoyé à l'adresse fournie",
-    "meetingCreated": "La rencontre a bien été crée",
-    "meetingUpdated": "La rencontre a bien été mise à jour"
+    "meetingCreated": "La rencontre a bien été créée",
+    "meetingUpdated": "La rencontre a bien été mise à jour",
+    "meetingDeleted": "La rencontre a bien été supprimée",
+    "availabilityUpdated": "Disponibilité mise à jour",
+    "availabilityCreated": "Disponibilité enregistrée",
+    "articleCreated": "Article posté",
+    "articleUpdated": "L'article a bien été mis à jour",
+    "articleDeleted": "L'artice a bien été supprimé"
 }
