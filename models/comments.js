@@ -17,14 +17,14 @@ module.exports.addComment = (newComment, callback) => {
 }
 
 /**
- * Query to get a comment
- * @param id comment's id to get
+ * Query to get all the comments of an article
+ * @param id article's id to get comments from
  * @param callback 
  */
-module.exports.getComment = (id, callback) => {
-    var req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.comments WHERE id=?';
+module.exports.getCommentsByArticle = (article_id, callback) => {
+    var req = 'SELECT id, message, created_at, updated_at, users_id FROM tcselles.comments WHERE articles_id = ?';
 
-    connection.query(req, id, (err, result) => {
+    connection.query(req, article_id, (err, result) => {
         if (err) {
             throw err;
         }
@@ -38,6 +38,7 @@ module.exports.getComment = (id, callback) => {
  * @param callback 
  */
 module.exports.updateComment = (updatedComment, callback) => {
+    updatedComment.updated_at = new Date;
     var req = "UPDATE tcselles.comments SET ? WHERE id=?";
 
     connection.query(req, [updatedComment, updatedComment.id], (err, result) => {

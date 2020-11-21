@@ -4,6 +4,7 @@ const errorMsg = require('../assets/messages/error-messages.json');
 const successMsg = require('../assets/messages/success-messages.json');
 
 const Articles = require('../models/articles');
+const { getCommentsByArticle } = require('../models/comments');
 
 router.post('/add', (req, res) => {
     let newArticle = req.body;
@@ -35,9 +36,16 @@ router.get('/show/:id', (req, res) => {
         if (err) {
             res.status(200).json({success: false, msg: errorMsg.generalError});
         } else {
-            res.status(200).json({success: true, article});
+            getCommentsByArticle(id, (err, comments) => {
+                if (err) {
+                    res.status(200).json({success: false, msg: errorMsg.generalError});
+                } else {
+                    res.status(200).json({success: true, article, comments});
+                }
+            });
         }
     });
+
 });
 
 router.post('/update', (req, res) => {
