@@ -4,7 +4,7 @@
  * @param callback 
  */
 module.exports.addTeam = (newTeam, callback) => {
-    var req = 'INSERT INTO tcselles.teams SET ?';
+    let req = 'INSERT INTO tcselles.teams SET ?';
 
     connection.query(req, newTeam, (err, result) => {
         if (err) {
@@ -19,7 +19,7 @@ module.exports.addTeam = (newTeam, callback) => {
  * @param callback 
  */
 module.exports.getAllTeams = (callback) => {
-    var req = 'SELECT t.id, nb, t.sex, lastname, firstname, label ' + 
+    let req = 'SELECT t.id, nb, t.sex, lastname, firstname, label ' + 
     'FROM tcselles.teams t ' +
     'LEFT JOIN tcselles.users u ON users_id = u.id ' + 
     'LEFT JOIN tcselles.categories cat ON categories_id = cat.id';
@@ -38,7 +38,7 @@ module.exports.getAllTeams = (callback) => {
  * @param callback 
  */
 module.exports.getTeam = (id, callback) => {
-    var req = 'SELECT t.id, nb, t.sex, lastname, firstname, label ' +
+    let req = 'SELECT t.id, nb, t.sex, lastname, firstname, label ' +
     'FROM tcselles.teams t ' +
     'LEFT JOIN tcselles.users u ON users_id = u.id ' +
     'LEFT JOIN tcselles.categories cat ON categories_id = cat.id ' +
@@ -58,7 +58,7 @@ module.exports.getTeam = (id, callback) => {
  * @param callback 
  */
 module.exports.updateTeam = (updatedTeam, callback) => {
-    var req = "UPDATE tcselles.teams SET ? WHERE id=?";
+    let req = "UPDATE tcselles.teams SET ? WHERE id=?";
 
     connection.query(req, [updatedTeam, updatedTeam.id], (err, result) => {
         if (err) {
@@ -74,7 +74,7 @@ module.exports.updateTeam = (updatedTeam, callback) => {
  * @param callback 
  */
 module.exports.deleteTeam = (id, callback) => {
-    var req = "DELETE FROM tcselles.teams WHERE id=?";
+    let req = "DELETE FROM tcselles.teams WHERE id=?";
 
     connection.query(req, id, (err, result) => {
         if (err) {

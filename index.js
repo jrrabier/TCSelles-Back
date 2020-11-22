@@ -23,12 +23,12 @@ connection.connect((err) => {
 
 const app = express();
 
-const users = require('./controllers/users');
-const meetings = require('./controllers/meetings');
-const availabilities = require('./controllers/availabilities');
-const articles = require('./controllers/articles');
-const comments = require('./controllers/comments');
-const teams = require('./controllers/teams');
+const users = require('./controllers/users_ctrl');
+const meetings = require('./controllers/meetings_ctrl');
+const availabilities = require('./controllers/availabilities_ctrl');
+const articles = require('./controllers/articles_ctrl');
+const comments = require('./controllers/comments_ctrl');
+const teams = require('./controllers/teams_ctrl');
 
 const port = process.env.PORT || 24828;
 

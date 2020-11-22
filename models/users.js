@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const errorMsg = require('../assets/messages/error-messages.json')
 
 module.exports.getAllUsers = (callback) => {
-    var req = 'SELECT * FROM users';
+    let req = 'SELECT * FROM users';
     connection.query(req, (err, results) => {
             if (err) {
                 throw err;
@@ -12,7 +12,7 @@ module.exports.getAllUsers = (callback) => {
 }
 
 module.exports.getUserById = (id, callback) => {
-    var req = 'SELECT id, mail, lastname, firstname, birthdate, phone, avatar, address, postalcode, city, licence_nb, lvl_id, sex_id, club_id ' + 
+    let req = 'SELECT id, mail, lastname, firstname, birthdate, phone, avatar, address, postalcode, city, licence_nb, lvl_id, sex_id, club_id ' + 
     'FROM users ' +
     'WHERE id = ?';
 
@@ -25,7 +25,7 @@ module.exports.getUserById = (id, callback) => {
 }
 
 module.exports.getUserMailById = (id, callback) => {
-    var req = 'SELECT mail FROM users WHERE id = ?';
+    let req = 'SELECT mail FROM users WHERE id = ?';
     connection.query(req, id, (err, mail) => {
             if (err) {
                 throw err;
@@ -35,7 +35,7 @@ module.exports.getUserMailById = (id, callback) => {
 }
 
 module.exports.getUserByMail = (mail, callback) => {
-    var req = 'SELECT * FROM users WHERE mail = ?';
+    let req = 'SELECT * FROM users WHERE mail = ?';
     connection.query(req, mail, (err, results) => {
             if (err) {
                 throw err;
@@ -44,29 +44,29 @@ module.exports.getUserByMail = (mail, callback) => {
     });
 }
 
-module.exports.addUser = (newUser, callback) => {
-
-    bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.psw, salt, (err, hash) => {
-            if (err) {
-                throw err;
-            }
-            newUser.psw = hash;
-
-            var req = 'INSERT INTO users SET ?';
-            connection.query(req, newUser, (err, results) => {
+module.exports.addUser = (newUser) => {
+    return new Promise((resolve, reject) => {
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newUser.psw, salt, (err, hash) => {
                 if (err) {
                     throw err;
                 }
-                console.log(results);
-                callback(null, results);
+                newUser.psw = hash;
+    
+                let req = 'INSERT INTO users SET ?';
+                connection.query(req, newUser, (err, results) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    resolve(results);
+                });
             });
         });
-    });
+    })
 }
 
 module.exports.updateUser = (updatedUser, callback) => {
-    var req = 'UPDATE users SET ? WHERE id = ?';
+    let req = 'UPDATE users SET ? WHERE id = ?';
 
     connection.query(req, [updatedUser, updatedUser.id], (err, results) => {
         if (err) {
@@ -78,7 +78,7 @@ module.exports.updateUser = (updatedUser, callback) => {
 }
 
 module.exports.deleteUser = (id, callback) => {
-    var req = 'DELETE FROM users WHERE id = ?';
+    let req = 'DELETE FROM users WHERE id = ?';
 
     connection.query(req, id, (err, results) => {
         if (err) {
@@ -110,3 +110,15 @@ module.exports.updatePassword = (user, newPassword, callback) => {
     });
 }
 
+module.exports.isUserExist = (mail) => {
+    return new Promise((resolve, reject) => {
+        let req = 'SELECT mail FROM tcselles.users WHERE mail=?';
+    
+        connection.query(req, mail, (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(result);
+        });
+    })
+}

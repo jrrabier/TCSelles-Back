@@ -1,3 +1,21 @@
+const { connect } = require("../controllers/teams_ctrl");
+
+/**
+ * Method to get all the category's ids the user belongs to
+ * @param age reference age to get the category's ids the user belongs to
+ * @param callback 
+ */
+module.exports.getCategoryIdsByAge = (age, callback) => {
+    let req = 'SELECT id FROM tcselles.categories WHERE ? BETWEEN age_start AND age_end';
+
+    connection.query(req, age, (err, result) => {
+        if (err) {
+            throw err;
+        }
+        callback(null, result);
+    });
+}
+
 // SELECT id, label, sex
 // FROM tcselles.categories;
 

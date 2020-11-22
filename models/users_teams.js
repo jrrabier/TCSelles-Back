@@ -6,7 +6,7 @@ const mixinServices = require('../services/mixinServices');
  * @param callback 
  */
 module.exports.addArticle = (newArticle, callback) => {
-    var req = 'INSERT INTO tcselles.articles SET ?';
+    let req = 'INSERT INTO tcselles.articles SET ?';
 
     connection.query(req, newArticle, (err, result) => {
         if (err) {
@@ -21,7 +21,7 @@ module.exports.addArticle = (newArticle, callback) => {
  * @param callback 
  */
 module.exports.getAllArticles = (callback) => {
-    var req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles';
+    let req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles';
 
     connection.query(req, (err, result) => {
         if (err) {
@@ -37,7 +37,7 @@ module.exports.getAllArticles = (callback) => {
  * @param callback 
  */
 module.exports.getArticle = (id, callback) => {
-    var req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles WHERE id=?';
+    let req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles WHERE id=?';
 
     connection.query(req, id, (err, result) => {
         if (err) {
@@ -53,7 +53,7 @@ module.exports.getArticle = (id, callback) => {
  * @param callback 
  */
 module.exports.updateArticle = (updatedArticle, callback) => {
-    var req = "UPDATE tcselles.articles SET ? WHERE id=?";
+    let req = "UPDATE tcselles.articles SET ? WHERE id=?";
 
     connection.query(req, [updatedArticle, updatedArticle.id], (err, result) => {
         if (err) {
@@ -69,7 +69,7 @@ module.exports.updateArticle = (updatedArticle, callback) => {
  * @param callback 
  */
 module.exports.deleteArticle = (id, callback) => {
-    var req = "DELETE FROM tcselles.articles WHERE id=?";
+    let req = "DELETE FROM tcselles.articles WHERE id=?";
 
     connection.query(req, id, (err, result) => {
         if (err) {

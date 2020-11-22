@@ -1,14 +1,12 @@
-const mixinServices = require('../services/mixinServices');
-
 /**
- * Query to add an article
- * @param newArticle the article to add
+ * Query to add the user's categories in which he belongs
+ * @param newUserCategories the user's category/categories to add
  * @param callback 
  */
-module.exports.addArticle = (newArticle, callback) => {
-    var req = 'INSERT INTO tcselles.articles SET ?';
+module.exports.addUserCategories = (newUserCategories, callback) => {
+    let req = 'INSERT INTO tcselles.users_categories SET ?';
 
-    connection.query(req, newArticle, (err, result) => {
+    connection.query(req, newUserCategories, (err, result) => {
         if (err) {
             throw err;
         }
@@ -17,11 +15,12 @@ module.exports.addArticle = (newArticle, callback) => {
 }
 
 /**
- * Query to get all the articles
+ * Query to get all the categories by user
+ * @param user_id user's id to get the categories he belongs to
  * @param callback 
  */
-module.exports.getAllArticles = (callback) => {
-    var req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles';
+module.exports.getAllCategoriesByUser = (user_id, callback) => {
+    let req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles';
 
     connection.query(req, (err, result) => {
         if (err) {
@@ -32,14 +31,14 @@ module.exports.getAllArticles = (callback) => {
 }
 
 /**
- * Query to get an article
- * @param id article's id to get
+ * Query to get all the users by category
+ * @param category_id category's id
  * @param callback 
  */
-module.exports.getArticle = (id, callback) => {
-    var req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles WHERE id=?';
+module.exports.getAllUsersByCategory = (category_id, callback) => {
+    let req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles WHERE id=?';
 
-    connection.query(req, id, (err, result) => {
+    connection.query(req, category_id, (err, result) => {
         if (err) {
             throw err;
         }
@@ -48,14 +47,13 @@ module.exports.getArticle = (id, callback) => {
 }
 
 /**
- * Query to update an article
- * @param updatedArticle article to update
+ * Method to update all the user's categories
  * @param callback 
  */
-module.exports.updateArticle = (updatedArticle, callback) => {
-    var req = "UPDATE tcselles.articles SET ? WHERE id=?";
+module.exports.updateUserCategories = (callback) => {
+    let req = "UPDATE tcselles.articles SET ? WHERE id=?";
 
-    connection.query(req, [updatedArticle, updatedArticle.id], (err, result) => {
+    connection.query(req, [updatedUserCategory, updatedUserCategory.id], (err, result) => {
         if (err) {
             throw err;
         }
@@ -64,31 +62,18 @@ module.exports.updateArticle = (updatedArticle, callback) => {
 }
 
 /**
- * Query to delete an article
- * @param id article's id to delete
- * @param callback 
+ * Query to delete a user's category
+ * @param user_id user's id to delete
+ * @param category_id category's id to delete
+ * @param callback
  */
-module.exports.deleteArticle = (id, callback) => {
-    var req = "DELETE FROM tcselles.articles WHERE id=?";
+module.exports.deleteUserCategory = (user_id, category_id, callback) => {
+    let req = "DELETE FROM tcselles.users_categories WHERE users_id=?, categories_id=?";
 
-    connection.query(req, id, (err, result) => {
+    connection.query(req, [user_id, category_id], (err, result) => {
         if (err) {
             throw err;
         }
         callback(null, result);
     });
 }
-
-// SELECT users_id, categories_id
-// FROM tcselles.users_categories;
-
-// INSERT INTO tcselles.users_categories
-// (users_id, categories_id)
-// VALUES(0, 0);
-
-// UPDATE tcselles.users_categories
-// SET 
-// WHERE users_id=0 AND categories_id=0;
-
-// DELETE FROM tcselles.users_categories
-// WHERE users_id=0 AND categories_id=0;

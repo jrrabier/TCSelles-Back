@@ -2,7 +2,7 @@ const mixinServices = require('../services/mixinServices');
 
 module.exports.addMeeting = (newMeeting, callback) => {
     let season_years = mixinServices.getSeasonYears();
-    var req = 'INSERT INTO tcselles.meetings SET ?';
+    let req = 'INSERT INTO tcselles.meetings SET ?';
     newMeeting.season_years = season_years;
 
     connection.query(req, newMeeting, (err, result) => {
@@ -14,7 +14,7 @@ module.exports.addMeeting = (newMeeting, callback) => {
 }
 
 module.exports.getAllMeetings = (callback) => {
-    var req = 'SELECT id, categories_id, `date`, sex, season, season_years FROM tcselles.meetings';
+    let req = 'SELECT id, categories_id, `date`, sex, season, season_years FROM tcselles.meetings';
 
     connection.query(req, (err, result) => {
         if (err) {
@@ -25,7 +25,7 @@ module.exports.getAllMeetings = (callback) => {
 }
 
 module.exports.getMeeting = (id, callback) => {
-    var req = 'SELECT id, categories_id, `date`, sex, season, season_years FROM tcselles.meetings WHERE id=?';
+    let req = 'SELECT id, categories_id, `date`, sex, season, season_years FROM tcselles.meetings WHERE id=?';
 
     connection.query(req, id, (err, result) => {
         if (err) {
@@ -36,7 +36,7 @@ module.exports.getMeeting = (id, callback) => {
 }
 
 module.exports.updateMeeting = (updatedMeeting, callback) => {
-    var req = "UPDATE tcselles.meetings SET ? WHERE id=?";
+    let req = "UPDATE tcselles.meetings SET ? WHERE id=?";
 
     connection.query(req, [updatedMeeting, updatedMeeting.id], (err, result) => {
         if (err) {
@@ -48,7 +48,7 @@ module.exports.updateMeeting = (updatedMeeting, callback) => {
 }
 
 module.exports.deleteMeeting = (id, callback) => {
-    var req = "DELETE FROM tcselles.meetings WHERE id=?";
+    let req = "DELETE FROM tcselles.meetings WHERE id=?";
 
     connection.query(req, id, (err, result) => {
         if (err) {
