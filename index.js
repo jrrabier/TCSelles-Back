@@ -28,6 +28,7 @@ const meetings = require('./controllers/meetings');
 const availabilities = require('./controllers/availabilities');
 const articles = require('./controllers/articles');
 const comments = require('./controllers/comments');
+const teams = require('./controllers/teams');
 
 const port = process.env.PORT || 24828;
 
@@ -48,6 +49,7 @@ app.use('/articles', articles);
 app.use('/meetings', meetings);
 app.use('/availabilities', availabilities);
 app.use('/comments', comments);
+app.use('/teams', teams);
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));

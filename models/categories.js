@@ -1,12 +1,12 @@
-// SELECT id, label, sexes_id
+// SELECT id, label, sex
 // FROM tcselles.categories;
 
 // INSERT INTO tcselles.categories
-// (label, sexes_id)
+// (label, sex)
 // VALUES('', '');
 
 // UPDATE tcselles.categories
-// SET label='', sexes_id=''
+// SET label='', sex=''
 // WHERE id=0;
 
 // DELETE FROM tcselles.categories

@@ -14,7 +14,7 @@ module.exports.addMeeting = (newMeeting, callback) => {
 }
 
 module.exports.getAllMeetings = (callback) => {
-    var req = 'SELECT id, categories_id, `date`, sexes_id, season, season_years FROM tcselles.meetings';
+    var req = 'SELECT id, categories_id, `date`, sex, season, season_years FROM tcselles.meetings';
 
     connection.query(req, (err, result) => {
         if (err) {
@@ -25,7 +25,7 @@ module.exports.getAllMeetings = (callback) => {
 }
 
 module.exports.getMeeting = (id, callback) => {
-    var req = 'SELECT id, categories_id, `date`, sexes_id, season, season_years FROM tcselles.meetings WHERE id=?';
+    var req = 'SELECT id, categories_id, `date`, sex, season, season_years FROM tcselles.meetings WHERE id=?';
 
     connection.query(req, id, (err, result) => {
         if (err) {
@@ -60,9 +60,9 @@ module.exports.deleteMeeting = (id, callback) => {
 
 module.exports.isMeetingExist = (meeting) => {
     return new Promise((resolve, reject) => {
-        let req = 'SELECT id, categories_id, `date`, sexes_id FROM tcselles.meetings WHERE categories_id=? AND `date`=? AND sexes_id=?';
+        let req = 'SELECT id, categories_id, `date`, sex FROM tcselles.meetings WHERE categories_id=? AND `date`=? AND sex=?';
     
-        connection.query(req, [meeting.categories_id, meeting.date, meeting.sexes_id], (err, result) => {
+        connection.query(req, [meeting.categories_id, meeting.date, meeting.sex], (err, result) => {
             if (err) {
                 reject(err);
             }

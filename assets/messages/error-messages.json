@@ -7,5 +7,6 @@
     "meetingAlreadyExists": "Cette rencontre existe déjà !",
     "generalError": "Une erreur est survenue",
     "noMeetingsToAdd": "Aucune rencontre à ajouter",
-    "meetingDoesntExist": "Cette rencontre n'existe pas !"
+    "meetingDoesntExist": "Cette rencontre n'existe pas !",
+    "teamAlreadyExists": "Cette équipe existe déjà !"
 }

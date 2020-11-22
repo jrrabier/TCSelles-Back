@@ -1,5 +1,3 @@
-const mixinServices = require('../services/mixinServices');
-
 /**
  * Query to add a comment
  * @param newComment the comment to add

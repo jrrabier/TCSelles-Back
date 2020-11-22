@@ -1,14 +1,12 @@
-const mixinServices = require('../services/mixinServices');
-
 /**
- * Query to add an article
- * @param newArticle the article to add
+ * Query to add a team
+ * @param newTeam the team to add
  * @param callback 
  */
-module.exports.addArticle = (newArticle, callback) => {
-    var req = 'INSERT INTO tcselles.articles SET ?';
+module.exports.addTeam = (newTeam, callback) => {
+    var req = 'INSERT INTO tcselles.teams SET ?';
 
-    connection.query(req, newArticle, (err, result) => {
+    connection.query(req, newTeam, (err, result) => {
         if (err) {
             throw err;
         }
@@ -17,11 +15,14 @@ module.exports.addArticle = (newArticle, callback) => {
 }
 
 /**
- * Query to get all the articles
+ * Query to get all the teams
  * @param callback 
  */
-module.exports.getAllArticles = (callback) => {
-    var req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles';
+module.exports.getAllTeams = (callback) => {
+    var req = 'SELECT t.id, nb, t.sex, lastname, firstname, label ' + 
+    'FROM tcselles.teams t ' +
+    'LEFT JOIN tcselles.users u ON users_id = u.id ' + 
+    'LEFT JOIN tcselles.categories cat ON categories_id = cat.id';
 
     connection.query(req, (err, result) => {
         if (err) {
@@ -32,12 +33,16 @@ module.exports.getAllArticles = (callback) => {
 }
 
 /**
- * Query to get an article
- * @param id article's id to get
+ * Query to get a team
+ * @param id team's id to get
  * @param callback 
  */
-module.exports.getArticle = (id, callback) => {
-    var req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles WHERE id=?';
+module.exports.getTeam = (id, callback) => {
+    var req = 'SELECT t.id, nb, t.sex, lastname, firstname, label ' +
+    'FROM tcselles.teams t ' +
+    'LEFT JOIN tcselles.users u ON users_id = u.id ' +
+    'LEFT JOIN tcselles.categories cat ON categories_id = cat.id ' +
+    'WHERE t.id = ?';
 
     connection.query(req, id, (err, result) => {
         if (err) {
@@ -48,14 +53,14 @@ module.exports.getArticle = (id, callback) => {
 }
 
 /**
- * Query to update an article
- * @param updatedArticle article to update
+ * Query to update a team
+ * @param updatedTeam team to update
  * @param callback 
  */
-module.exports.updateArticle = (updatedArticle, callback) => {
-    var req = "UPDATE tcselles.articles SET ? WHERE id=?";
+module.exports.updateTeam = (updatedTeam, callback) => {
+    var req = "UPDATE tcselles.teams SET ? WHERE id=?";
 
-    connection.query(req, [updatedArticle, updatedArticle.id], (err, result) => {
+    connection.query(req, [updatedTeam, updatedTeam.id], (err, result) => {
         if (err) {
             throw err;
         }
@@ -64,12 +69,12 @@ module.exports.updateArticle = (updatedArticle, callback) => {
 }
 
 /**
- * Query to delete an article
- * @param id article's id to delete
+ * Query to delete a team
+ * @param id team's id to delete
  * @param callback 
  */
-module.exports.deleteArticle = (id, callback) => {
-    var req = "DELETE FROM tcselles.articles WHERE id=?";
+module.exports.deleteTeam = (id, callback) => {
+    var req = "DELETE FROM tcselles.teams WHERE id=?";
 
     connection.query(req, id, (err, result) => {
         if (err) {
@@ -79,16 +84,15 @@ module.exports.deleteArticle = (id, callback) => {
     });
 }
 
-// SELECT id, nb, sexes_id, clubs_id, users_id, categories_id
-// FROM tcselles.teams;
-
-// INSERT INTO tcselles.teams
-// (nb, sexes_id, clubs_id, users_id, categories_id)
-// VALUES(0, '', 0, NULL, 0);
-
-// UPDATE tcselles.teams
-// SET nb=0, sexes_id='', clubs_id=0, users_id=NULL, categories_id=0
-// WHERE id=0;
-
-// DELETE FROM tcselles.teams
-// WHERE id=0;
+module.exports.isTeamExist = (team) => {
+    return new Promise((resolve, reject) => {
+        let req = 'SELECT id, nb, sex, users_id, categories_id FROM tcselles.teams WHERE nb=? AND sex=? AND categories_id=?';
+    
+        connection.query(req, [team.nb, team.sex, team.categories_id], (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(result);
+        });
+    })
+}

@@ -11,5 +11,8 @@
     "availabilityCreated": "Disponibilité enregistrée",
     "articleCreated": "Article posté",
     "articleUpdated": "L'article a bien été mis à jour",
-    "articleDeleted": "L'artice a bien été supprimé"
+    "articleDeleted": "L'artice a bien été supprimé",
+    "teamCreated": "Equipe créée",
+    "teamUpdated": "L'équipe a bien été mise à jour",
+    "teamDeleted": "L'équipe a bien été supprimée"
 }
