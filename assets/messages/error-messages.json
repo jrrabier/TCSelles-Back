@@ -3,10 +3,14 @@
     "accountNotCreated": "Erreur lors de la création du compte",
     "incorrectLogin": "Email ou mot de passe incorrect !",
     "invalidPsw": "Votre mot de passe doit contenir au moins 8 caractères, une lettre majuscule, un chiffre et un caractère spécial (@$!%*#?&)",
+    "invalidMail": "Cette adresse mail n'est pas valide",
     "mailExist": "Cette adresse mail est déjà utilisée",
     "meetingAlreadyExists": "Cette rencontre existe déjà !",
     "generalError": "Une erreur est survenue",
     "noMeetingsToAdd": "Aucune rencontre à ajouter",
     "meetingDoesntExist": "Cette rencontre n'existe pas !",
-    "teamAlreadyExists": "Cette équipe existe déjà !"
+    "teamAlreadyExists": "Cette équipe existe déjà !",
+    "userAlreadyBelongsToTeam": "Ce joueur est déjà dans cette équipe !",
+    "userAlreadyBelongsToOtherSameCatTeam": "Ce joueur est déjà dans une équipe de la même catégorie",
+    "wrongCategory": "Mauvaise catégorie"
 }

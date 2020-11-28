@@ -14,5 +14,6 @@
     "articleDeleted": "L'artice a bien été supprimé",
     "teamCreated": "Equipe créée",
     "teamUpdated": "L'équipe a bien été mise à jour",
-    "teamDeleted": "L'équipe a bien été supprimée"
+    "teamDeleted": "L'équipe a bien été supprimée",
+    "usersTeamsCreated": "Joueur(se) ajouté(e) à l'équipe"
 }

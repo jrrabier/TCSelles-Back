@@ -8,7 +8,7 @@ module.exports.addUserCategories = (newUserCategories, callback) => {
 
     connection.query(req, newUserCategories, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -24,7 +24,7 @@ module.exports.getAllCategoriesByUser = (user_id, callback) => {
 
     connection.query(req, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -40,7 +40,7 @@ module.exports.getAllUsersByCategory = (category_id, callback) => {
 
     connection.query(req, category_id, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -55,7 +55,7 @@ module.exports.updateUserCategories = (callback) => {
 
     connection.query(req, [updatedUserCategory, updatedUserCategory.id], (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -72,7 +72,7 @@ module.exports.deleteUserCategory = (user_id, category_id, callback) => {
 
     connection.query(req, [user_id, category_id], (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });

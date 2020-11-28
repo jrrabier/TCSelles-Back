@@ -17,53 +17,58 @@ const { addUserCategories } = require('../models/users_categories');
 // Register
 router.post('/register', (req, res, next) => {
     let newUser = req.body;
-    // let isMailValid = validationServices.isMailValid(newUser.mail);
+    let isMailValid = validationServices.isMailValid(newUser.mail);
     let age = mixinServices.getUserSeasonAge(newUser.birthdate);
 
-    // Control if mail doesn't exist already
-    Users.isUserExist(newUser.mail).then(
-        result => {
-            if (result.length > 0) {
-                res.status(200).json({success: false, msg: errorMsg.mailExist});
-            } else {
-                // Adding user as Promise because i need is id to insert his categories
-                Users.addUser(newUser).then(
-                    result => {
-                        if (!result) {
-                            res.status(200).json({success: false, msg: errorMsg.accountNotCreated});
-                        } else {
-                            // Getting the user's id ...
-                            Users.getUserByMail(newUser.mail, (err, user) => {
-                                if (err) {
-                                    res.status(200).json({success: false, msg: errorMsg.generalError});
-                                } else {
-                                    getCategoryIdsByAge(age, (err, result) => {
-                                        if (result.length > 0) {
-                                            let category_ids = result;
-                                            // ... to create the users categories
-                                            let usersCategories = mixinServices.generateUsersCategoriesToInsert(category_ids, user.id);
-                                            usersCategories.forEach(category => {
-                                                addUserCategories(category, (err, result) => {
-                                                    if (err) {
-                                                        res.status(200).json({success: false, msg: errorMsg.generalError});
-                                                    }
+    if (isMailValid) {
+        // Control if mail doesn't exist already
+        Users.isUserExist(newUser.mail).then(
+            result => {
+                if (result.length > 0) {
+                    res.status(200).json({success: false, msg: errorMsg.mailExist});
+                } else {
+                    // Adding user as Promise because i need to be sure the user is added
+                    // to get his id
+                    Users.addUser(newUser).then(
+                        result => {
+                            if (!result) {
+                                res.status(200).json({success: false, msg: errorMsg.accountNotCreated});
+                            } else {
+                                // Getting the user's id ...
+                                Users.getUserByMail(newUser.mail, (err, user) => {
+                                    if (err) {
+                                        res.status(200).json({success: false, msg: errorMsg.generalError});
+                                    } else {
+                                        getCategoryIdsByAge(age, (err, result) => {
+                                            if (result.length > 0) {
+                                                let category_ids = result;
+                                                // ... to create the users categories
+                                                let usersCategories = mixinServices.generateUsersCategoriesToInsert(category_ids, user.id);
+                                                usersCategories.forEach(category => {
+                                                    addUserCategories(category, (err, result) => {
+                                                        if (err) {
+                                                            res.status(200).json({success: false, msg: errorMsg.generalError});
+                                                        }
+                                                    });
                                                 });
-                                            });
-                                            res.status(201).json({success: true, msg: successMsg.accountCreated});
-                                        } else {
-                                            res.status(200).json({success: false, msg: errorMsg.generalError});
-                                        }
-                                    });
-                                }
-                            });
+                                                res.status(201).json({success: true, msg: successMsg.accountCreated});
+                                            } else {
+                                                res.status(200).json({success: false, msg: errorMsg.generalError});
+                                            }
+                                        });
+                                    }
+                                });
+                            }
                         }
-                    }
-                );
+                    );
+                }
+            }, reject => {
+                res.status(200).json({success: false, msg: errorMsg.generalError});
             }
-        }, reject => {
-            res.status(200).json({success: false, msg: errorMsg.generalError});
-        }
-    )
+        )
+    } else {
+        res.status(200).json({success: false, msg: errorMsg.invalidMail});
+    }
 });
 
 router.post('/authenticate', (req, res, next) => {
@@ -71,7 +76,7 @@ router.post('/authenticate', (req, res, next) => {
 
     Users.getUserByMail(login.mail, (err, user) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         if (!user) {
             return res.status(200).json({success: false, msg: errorMsg.noAccount})    
@@ -79,7 +84,7 @@ router.post('/authenticate', (req, res, next) => {
 
         Users.comparePassword(login.psw, user.psw, (err, isMatch) => {
             if (err) {
-                throw err;
+                callback(err);
             }
             if (isMatch) {
                 const token = jwt.sign({user}, config.secret, {
@@ -115,7 +120,7 @@ router.post('/update', (req, res) => {
     if (updatedUser.mail) {
         Users.getUserMailById(updatedUser.id, (err, mail) => {
             if (err) {
-                throw err;
+                callback(err);
             }
             if (mail) {
                 return res.status(200).json({success: false, msg: errorMsg.mailExist})  
@@ -132,7 +137,7 @@ router.post('/update', (req, res) => {
 
             Users.updateUser(updatedUser, (err, result) => {
                 if (err) {
-                    throw err;
+                    callback(err);
                 }
                 return res.status(200).json({success: true, msg: successMsg.accountUpdated});
             });
@@ -140,7 +145,7 @@ router.post('/update', (req, res) => {
     } else {
         Users.updateUser(updatedUser, (err, result) => {
             if (err) {
-                throw err;
+                callback(err);
             }
             return res.status(200).json({success: true, msg: successMsg.accountUpdated});
         });
@@ -153,7 +158,7 @@ router.route('/forgot-password')
 
         Users.getUserByMail(mail, (err, user) => {
             if (err) {
-                throw err;
+                callback(err);
             }
             if (!user) {
                 return res.status(200).json({success: false, msg: errorMsg.noAccount})
@@ -188,7 +193,7 @@ router.route('/reset-password')
                 console.log(req.user, req.body);
                 Users.updatePassword(req.user, req.body.newPsw, (err, doc) => {
                     if (err) {
-                        throw err;
+                        callback(err);
                     }
                     if (doc) {
                         return res.status(200).json({success: true, msg: successMsg.passwordUpdated})
@@ -204,7 +209,7 @@ router.route('/reset-password')
 
 router.post('/delete', (req, res) => {
     Users.deleteUser(req.id, (err, result) => {
-        if (err) throw err;
+        if (err) callback(err);
         if (result) {
             return res.status(200).json({success: true, msg: successMsg.playerDeleted});
         }

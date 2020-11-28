@@ -8,7 +8,7 @@ module.exports.addComment = (newComment, callback) => {
 
     connection.query(req, newComment, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -24,7 +24,7 @@ module.exports.getCommentsByArticle = (article_id, callback) => {
 
     connection.query(req, article_id, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -41,7 +41,7 @@ module.exports.updateComment = (updatedComment, callback) => {
 
     connection.query(req, [updatedComment, updatedComment.id], (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -57,7 +57,7 @@ module.exports.deleteComment = (id, callback) => {
 
     connection.query(req, id, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });

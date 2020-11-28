@@ -3,7 +3,7 @@ module.exports.addAvailability = (newAvailability, callback) => {
 
     connection.query(req, newAvailability, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -14,7 +14,7 @@ module.exports.getAllAvailabilities = (callback) => {
 
     connection.query(req, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -25,7 +25,7 @@ module.exports.getAvailabilityById = (availability, callback) => {
 
     connection.query(req, [availability.u_id, availability.m_id], (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -39,7 +39,7 @@ module.exports.updateAvailability = (updatedAvailability, callback) => {
     
         connection.query(isPlayingReq, [updatedAvailability.status, updatedAvailability.is_playing, updatedAvailability.users_id, updatedAvailability.meetings_id], (err, result) => {
             if (err) {
-                throw err;
+                callback(err);
             }
             callback(null, result);
         });
@@ -47,7 +47,7 @@ module.exports.updateAvailability = (updatedAvailability, callback) => {
     
         connection.query(req, [updatedAvailability.status, updatedAvailability.users_id, updatedAvailability.meetings_id], (err, result) => {
             if (err) {
-                throw err;
+                callback(err);
             }
             callback(null, result);
         });
@@ -59,7 +59,7 @@ module.exports.deleteAvailability = (availability, callback) => {
 
     connection.query(req, [availability.users_id, availability.meetings_id], (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });

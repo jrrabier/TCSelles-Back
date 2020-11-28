@@ -8,7 +8,7 @@ module.exports.addTeam = (newTeam, callback) => {
 
     connection.query(req, newTeam, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -26,7 +26,7 @@ module.exports.getAllTeams = (callback) => {
 
     connection.query(req, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -46,7 +46,7 @@ module.exports.getTeam = (id, callback) => {
 
     connection.query(req, id, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -62,7 +62,7 @@ module.exports.updateTeam = (updatedTeam, callback) => {
 
     connection.query(req, [updatedTeam, updatedTeam.id], (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -78,7 +78,7 @@ module.exports.deleteTeam = (id, callback) => {
 
     connection.query(req, id, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -95,4 +95,17 @@ module.exports.isTeamExist = (team) => {
             resolve(result);
         });
     })
+}
+
+module.exports.getTeamSexAndCatById = (id) => {
+    return new Promise((resolve, reject) => {
+        let req = 'SELECT sex, categories_id FROM tcselles.teams WHERE id=?';
+
+        connection.query(req, id, (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(result[0]);
+        });
+    });
 }

@@ -10,7 +10,7 @@ module.exports.getCategoryIdsByAge = (age, callback) => {
 
     connection.query(req, age, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });

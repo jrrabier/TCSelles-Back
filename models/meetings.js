@@ -7,7 +7,7 @@ module.exports.addMeeting = (newMeeting, callback) => {
 
     connection.query(req, newMeeting, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -18,7 +18,7 @@ module.exports.getAllMeetings = (callback) => {
 
     connection.query(req, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -29,7 +29,7 @@ module.exports.getMeeting = (id, callback) => {
 
     connection.query(req, id, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -40,7 +40,7 @@ module.exports.updateMeeting = (updatedMeeting, callback) => {
 
     connection.query(req, [updatedMeeting, updatedMeeting.id], (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         console.log(result);
         callback(null, result);
@@ -52,7 +52,7 @@ module.exports.deleteMeeting = (id, callback) => {
 
     connection.query(req, id, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });

@@ -4,6 +4,7 @@ const errorMsg = require('../assets/messages/error-messages.json');
 const successMsg = require('../assets/messages/success-messages.json');
 
 const Teams = require('../models/teams');
+const { isUserExist } = require('../models/users');
 
 router.post('/add', (req, res) => {
     let newTeam = req.body;
@@ -52,21 +53,13 @@ router.get('/show/:id', (req, res) => {
 router.post('/update', (req, res) => {
     let updatedTeam = req.body;
 
-    Teams.isTeamExist(updatedTeam).then(
-        result => {
-            if (result.length > 0) {
-                res.status(200).json({success: false, msg: errorMsg.teamAlreadyExists, team: result});
-            } else {
-                Teams.updateTeam(updatedTeam, (err, result) => {
-                    if (err) {
-                        res.status(200).json({success: false, msg: errorMsg.generalError});
-                    } else {
-                        res.status(200).json({success: true, msg: successMsg.teamUpdated});
-                    }
-                });
-            }
+    Teams.updateTeam(updatedTeam, (err, result) => {
+        if (err) {
+            res.status(200).json({success: false, msg: errorMsg.generalError});
+        } else {
+            res.status(200).json({success: true, msg: successMsg.teamUpdated});
         }
-    );
+    });
 });
 
 router.post('/delete', (req, res) => {

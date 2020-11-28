@@ -2,15 +2,15 @@ const mixinServices = require('../services/mixinServices');
 
 /**
  * Query to add an article
- * @param newArticle the article to add
+ * @param newdUsersTeam the article to add
  * @param callback 
  */
-module.exports.addArticle = (newArticle, callback) => {
-    let req = 'INSERT INTO tcselles.articles SET ?';
+module.exports.addUsersTeam = (newdUsersTeam, callback) => {
+    let req = 'INSERT INTO tcselles.users_teams SET ?';
 
-    connection.query(req, newArticle, (err, result) => {
+    connection.query(req, newdUsersTeam, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -20,12 +20,12 @@ module.exports.addArticle = (newArticle, callback) => {
  * Query to get all the articles
  * @param callback 
  */
-module.exports.getAllArticles = (callback) => {
+module.exports.getAllUsersTeams = (callback) => {
     let req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles';
 
     connection.query(req, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -36,12 +36,12 @@ module.exports.getAllArticles = (callback) => {
  * @param id article's id to get
  * @param callback 
  */
-module.exports.getArticle = (id, callback) => {
+module.exports.getUsersTeam = (id, callback) => {
     let req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles WHERE id=?';
 
     connection.query(req, id, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -49,15 +49,15 @@ module.exports.getArticle = (id, callback) => {
 
 /**
  * Query to update an article
- * @param updatedArticle article to update
+ * @param updateddUsersTeam article to update
  * @param callback 
  */
-module.exports.updateArticle = (updatedArticle, callback) => {
+module.exports.updatedUsersTeam = (updateddUsersTeam, callback) => {
     let req = "UPDATE tcselles.articles SET ? WHERE id=?";
 
-    connection.query(req, [updatedArticle, updatedArticle.id], (err, result) => {
+    connection.query(req, [updateddUsersTeam, updateddUsersTeam.id], (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -68,27 +68,42 @@ module.exports.updateArticle = (updatedArticle, callback) => {
  * @param id article's id to delete
  * @param callback 
  */
-module.exports.deleteArticle = (id, callback) => {
+module.exports.deletedUsersTeam = (id, callback) => {
     let req = "DELETE FROM tcselles.articles WHERE id=?";
 
     connection.query(req, id, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
 }
 
-// SELECT teams_id, users_id
-// FROM tcselles.users_teams;
+module.exports.isUserAlreadyBelongsToTeam = (team) => {
+    return new Promise((resolve, reject) => {
+        let req = 'SELECT users_id, teams_id FROM tcselles.users_teams WHERE users_id=? AND teams_id=?';
+    
+        connection.query(req, [team.users_id, team.teams_id], (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(result[0]);
+        });
+    })
+}
 
-// INSERT INTO tcselles.users_teams
-// (teams_id, users_id)
-// VALUES(0, 0);
-
-// UPDATE tcselles.users_teams
-// SET 
-// WHERE teams_id=0 AND users_id=0;
-
-// DELETE FROM tcselles.users_teams
-// WHERE teams_id=0 AND users_id=0;
+module.exports.isUserBelongsToOtherSameCatTeam = (team, user_id) => {
+    return new Promise((resolve, reject) => {
+        let req = `SELECT ut.teams_id FROM tcselles.users_teams ut 
+            INNER JOIN tcselles.teams t ON ut.teams_id = t.id 
+            WHERE t.sex = ? AND t.categories_id = ? AND ut.users_id = ?`;
+        
+            connection.query(req, [team.sex, team.categories_id, user_id], (err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                console.log(result[0]);
+                resolve(result[0]);
+            });
+    });
+}

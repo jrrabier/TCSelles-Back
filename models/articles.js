@@ -10,7 +10,7 @@ module.exports.addArticle = (newArticle, callback) => {
 
     connection.query(req, newArticle, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -25,7 +25,7 @@ module.exports.getAllArticles = (callback) => {
 
     connection.query(req, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -41,7 +41,7 @@ module.exports.getArticle = (id, callback) => {
 
     connection.query(req, id, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -58,7 +58,7 @@ module.exports.updateArticle = (updatedArticle, callback) => {
 
     connection.query(req, [updatedArticle, updatedArticle.id], (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
@@ -74,7 +74,7 @@ module.exports.deleteArticle = (id, callback) => {
 
     connection.query(req, id, (err, result) => {
         if (err) {
-            throw err;
+            callback(err);
         }
         callback(null, result);
     });
