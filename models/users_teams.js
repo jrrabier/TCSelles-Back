@@ -2,13 +2,60 @@ const mixinServices = require('../services/mixinServices');
 
 /**
  * Query to add an article
- * @param newdUsersTeam the article to add
+ * @param newUsersTeam the article to add
  * @param callback 
  */
-module.exports.addUsersTeam = (newdUsersTeam, callback) => {
+module.exports.addUsersTeam = (newUsersTeam, callback) => {
     let req = 'INSERT INTO tcselles.users_teams SET ?';
 
-    connection.query(req, newdUsersTeam, (err, result) => {
+    connection.query(req, newUsersTeam, (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        callback(null, result);
+    });
+}
+
+// /**
+//  * Query to get all the articles
+//  * @param callback 
+//  */
+// module.exports.getAllUsersTeams = (callback) => {
+//     let req = 'SELECT users_id, teams_id FROM tcselles.users_teams';
+
+//     connection.query(req, (err, result) => {
+//         if (err) {
+//             callback(err);
+//         }
+//         callback(null, result);
+//     });
+// }
+
+// /**
+//  * Query to get an article
+//  * @param id article's id to get
+//  * @param callback 
+//  */
+// module.exports.getUsersTeam = (id, callback) => {
+//     let req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles WHERE id=?';
+
+//     connection.query(req, id, (err, result) => {
+//         if (err) {
+//             callback(err);
+//         }
+//         callback(null, result);
+//     });
+// }
+
+/**
+ * Query to update player's belonging to a team
+ * @param updateddUsersTeam belonging to update
+ * @param callback 
+ */
+module.exports.updateUsersTeam = (updatedUsersTeam, team_id, callback) => {
+    let req = "UPDATE tcselles.users_teams SET ? WHERE users_id=? AND teams_id=?";
+
+    connection.query(req, [updatedUsersTeam, updatedUsersTeam.users_id, team_id], (err, result) => {
         if (err) {
             callback(err);
         }
@@ -17,61 +64,14 @@ module.exports.addUsersTeam = (newdUsersTeam, callback) => {
 }
 
 /**
- * Query to get all the articles
+ * Query to delete player's belongings to a team
+ * @param id ids to delete
  * @param callback 
  */
-module.exports.getAllUsersTeams = (callback) => {
-    let req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles';
+module.exports.deleteUsersTeam = (usersTeam, callback) => {
+    let req = "DELETE FROM tcselles.users_teams WHERE id=?";
 
-    connection.query(req, (err, result) => {
-        if (err) {
-            callback(err);
-        }
-        callback(null, result);
-    });
-}
-
-/**
- * Query to get an article
- * @param id article's id to get
- * @param callback 
- */
-module.exports.getUsersTeam = (id, callback) => {
-    let req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles WHERE id=?';
-
-    connection.query(req, id, (err, result) => {
-        if (err) {
-            callback(err);
-        }
-        callback(null, result);
-    });
-}
-
-/**
- * Query to update an article
- * @param updateddUsersTeam article to update
- * @param callback 
- */
-module.exports.updatedUsersTeam = (updateddUsersTeam, callback) => {
-    let req = "UPDATE tcselles.articles SET ? WHERE id=?";
-
-    connection.query(req, [updateddUsersTeam, updateddUsersTeam.id], (err, result) => {
-        if (err) {
-            callback(err);
-        }
-        callback(null, result);
-    });
-}
-
-/**
- * Query to delete an article
- * @param id article's id to delete
- * @param callback 
- */
-module.exports.deletedUsersTeam = (id, callback) => {
-    let req = "DELETE FROM tcselles.articles WHERE id=?";
-
-    connection.query(req, id, (err, result) => {
+    connection.query(req, usersTeam, (err, result) => {
         if (err) {
             callback(err);
         }
@@ -102,7 +102,6 @@ module.exports.isUserBelongsToOtherSameCatTeam = (team, user_id) => {
                 if (err) {
                     reject(err);
                 }
-                console.log(result[0]);
                 resolve(result[0]);
             });
     });

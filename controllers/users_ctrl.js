@@ -76,7 +76,7 @@ router.post('/authenticate', (req, res, next) => {
 
     Users.getUserByMail(login.mail, (err, user) => {
         if (err) {
-            callback(err);
+            throw err;
         }
         if (!user) {
             return res.status(200).json({success: false, msg: errorMsg.noAccount})    
@@ -84,7 +84,7 @@ router.post('/authenticate', (req, res, next) => {
 
         Users.comparePassword(login.psw, user.psw, (err, isMatch) => {
             if (err) {
-                callback(err);
+                throw err;
             }
             if (isMatch) {
                 const token = jwt.sign({user}, config.secret, {
@@ -100,7 +100,7 @@ router.post('/authenticate', (req, res, next) => {
                         firstname: user.firstname,
                         mail: user.mail,
                         avatar: user.avatar,
-                        sex: user.sex_id
+                        sex: user.sex
                     }
                 });
             } else {
@@ -120,7 +120,7 @@ router.post('/update', (req, res) => {
     if (updatedUser.mail) {
         Users.getUserMailById(updatedUser.id, (err, mail) => {
             if (err) {
-                callback(err);
+                throw err;
             }
             if (mail) {
                 return res.status(200).json({success: false, msg: errorMsg.mailExist})  
@@ -137,7 +137,7 @@ router.post('/update', (req, res) => {
 
             Users.updateUser(updatedUser, (err, result) => {
                 if (err) {
-                    callback(err);
+                    throw err;
                 }
                 return res.status(200).json({success: true, msg: successMsg.accountUpdated});
             });
@@ -145,7 +145,7 @@ router.post('/update', (req, res) => {
     } else {
         Users.updateUser(updatedUser, (err, result) => {
             if (err) {
-                callback(err);
+                throw err;
             }
             return res.status(200).json({success: true, msg: successMsg.accountUpdated});
         });
@@ -158,7 +158,7 @@ router.route('/forgot-password')
 
         Users.getUserByMail(mail, (err, user) => {
             if (err) {
-                callback(err);
+                throw err;
             }
             if (!user) {
                 return res.status(200).json({success: false, msg: errorMsg.noAccount})
@@ -193,7 +193,7 @@ router.route('/reset-password')
                 console.log(req.user, req.body);
                 Users.updatePassword(req.user, req.body.newPsw, (err, doc) => {
                     if (err) {
-                        callback(err);
+                        throw err;
                     }
                     if (doc) {
                         return res.status(200).json({success: true, msg: successMsg.passwordUpdated})
@@ -209,7 +209,7 @@ router.route('/reset-password')
 
 router.post('/delete', (req, res) => {
     Users.deleteUser(req.id, (err, result) => {
-        if (err) callback(err);
+        if (err) throw err;
         if (result) {
             return res.status(200).json({success: true, msg: successMsg.playerDeleted});
         }

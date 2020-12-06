@@ -19,7 +19,7 @@ router.post('/add', (req, res) => {
             let userResult = results[0];
             let teamResult = results[1];
             let canJoinTeam = false;
-
+            
             userResult.forEach(userSexAndCat => {
                 if (userSexAndCat.sex == teamResult.sex && userSexAndCat.categories_id == teamResult.categories_id) {
                     canJoinTeam = true;
@@ -34,15 +34,18 @@ router.post('/add', (req, res) => {
                             UsersTeams.isUserBelongsToOtherSameCatTeam(teamResult,newUsersTeam.users_id).then(
                                 team => {
                                     if (team) {
-                                        res.status(200).json({success: false, msg: errorMsg.userAlreadyBelongsToOtherSameCatTeam});
+                                        UsersTeams.updateUsersTeam(newUsersTeam, team.teams_id, (err, result) => {
+                                            if (err) {
+                                                res.status(200).json({success: false, msg: errorMsg.generalError});
+                                            }
+                                            res.status(201).json({success: true, msg: successMsg.UsersTeamsUpdated});
+                                        })
                                     } else {
                                         UsersTeams.addUsersTeam(newUsersTeam, (err, result) => {
                                             if (err) {
-                                                console.log(err);
                                                 res.status(200).json({success: false, msg: errorMsg.generalError});
-                                            } else {
-                                                res.status(201).json({success: true, msg: successMsg.usersTeamsCreated});
                                             }
+                                            res.status(201).json({success: true, msg: successMsg.usersTeamsCreated});
                                         });
                                     }
                                 }
@@ -56,27 +59,11 @@ router.post('/add', (req, res) => {
             }
         }
     )
-
-    // UsersTeams.isUsersTeamExist(newUsersTeam).then(
-    //     result => {
-    //         if (result.length > 0 && newUsersTeam.users_id) {
-    //             res.status(200).json({success: false, msg: errorMsg.teamAlreadyExists, team: result});
-    //         } else {
-    //             UsersTeams.addTeam(newUsersTeam, (err, result) => {
-    //                 if (err) {
-    //                     res.status(200).json({success: false, msg: err});
-    //                 } else {
-    //                     res.status(201).json({success: true, msg: successMsg.teamCreated});
-    //                 }
-    //             });
-    //         }
-    //     }
-    // );
 });
 
 router.get('/show', (req, res) => {
 
-    Teams.getAllTeams((err, teams) => {
+    UsersTeams.getAllUsersTeams((err, teams) => {
         if (err) {
             res.status(200).json({success: false, msg: errorMsg.generalError});
         } else {
@@ -95,25 +82,12 @@ router.get('/show/:id', (req, res) => {
             res.status(200).json({success: true, team});
         }
     });
-
-});
-
-router.post('/update', (req, res) => {
-    let updatedTeam = req.body;
-
-    Teams.updateTeam(updatedTeam, (err, result) => {
-        if (err) {
-            res.status(200).json({success: false, msg: errorMsg.generalError});
-        } else {
-            res.status(200).json({success: true, msg: successMsg.teamUpdated});
-        }
-    });
 });
 
 router.post('/delete', (req, res) => {
-    let teamId = req.body.id;
+    let usersTeam = req.body;
 
-    Teams.deleteTeam(teamId, (err, result) => {
+    UsersTeams.deleteUsersTeam(usersTeam, (err, result) => {
         if (err) {
             res.status(200).json({success: false, msg: errorMsg.generalError});
         } else {
