@@ -3,7 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const config = require('./config/database');
 
 if (process.env.NODE_ENV == 'development') {

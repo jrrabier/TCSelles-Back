@@ -16,5 +16,6 @@
     "teamUpdated": "L'équipe a bien été mise à jour",
     "teamDeleted": "L'équipe a bien été supprimée",
     "usersTeamsCreated": "Joueur(se) ajouté(e) à l'équipe",
-    "UsersTeamsUpdated": "Changement d'équipe effectué"
+    "UsersTeamsUpdated": "Changement d'équipe effectué",
+    "getAllLevels": "Liste des classements récupérée"
 }

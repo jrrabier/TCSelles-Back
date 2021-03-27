@@ -12,5 +12,6 @@
     "teamAlreadyExists": "Cette équipe existe déjà !",
     "userAlreadyBelongsToTeam": "Ce joueur est déjà dans cette équipe !",
     "userAlreadyBelongsToOtherSameCatTeam": "Ce joueur est déjà dans une équipe de la même catégorie",
-    "wrongCategory": "Mauvaise catégorie"
+    "wrongCategory": "Mauvaise catégorie",
+    "doesntGetAllLevels": "Liste des classements non récupérée"
 }

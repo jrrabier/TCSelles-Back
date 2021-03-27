@@ -13,9 +13,11 @@ const mixinServices = require('../services/mixinServices')
 const Users = require('../models/users');
 const { getCategoryIdsByAge } = require('../models/categories');
 const { addUserCategories } = require('../models/users_categories');
+const { getAllLevels } = require('../models/levels');
 
 // Register
-router.post('/register', (req, res, next) => {
+router.route('/register')
+.post((req, res, next) => {
     let newUser = req.body;
     let isMailValid = validationServices.isMailValid(newUser.mail);
     let age = mixinServices.getUserSeasonAge(newUser.birthdate);
@@ -69,6 +71,18 @@ router.post('/register', (req, res, next) => {
     } else {
         res.status(200).json({success: false, msg: errorMsg.invalidMail});
     }
+})
+.get((req,res) => {
+    getAllLevels((err,levels) => {
+        if (err) {
+            throw err;
+        }
+        if (levels) {
+            return res.status(200).json({success: true, msg: successMsg.getAllLevels, levels});
+        } else { 
+            return res.status(200).json({success: false, msg: errorMsg.doesntGetAllLevels});
+        }
+    })
 });
 
 router.post('/authenticate', (req, res, next) => {

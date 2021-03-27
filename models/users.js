@@ -36,7 +36,7 @@ module.exports.getUserMailById = (id, callback) => {
 
 module.exports.getUserByMail = (mail, callback) => {
     let req = 'SELECT * FROM tcselles.users WHERE mail = ?';
-    connection.query(req, mail, (err, results) => {
+    connection.query(req, [mail], (err, results) => {
             if (err) {
                 callback(err);
             }
