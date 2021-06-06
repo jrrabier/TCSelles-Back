@@ -1,3 +1,4 @@
 {
-    "samePassword": "Les deux mots de passe doivent être identiques"
+    "samePassword": "Les deux mots de passe doivent être identiques",
+    "userDoesntHaveRole": "Vous n'avez pas de rôle"
 }

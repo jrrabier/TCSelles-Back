@@ -14,6 +14,7 @@ const Users = require('../models/users');
 const { getCategoryIdsByAge } = require('../models/categories');
 const { addUserCategories } = require('../models/users_categories');
 const { getAllLevels } = require('../models/levels');
+const { getRolesByUsersId } = require('../models/roles');
 
 // Register
 router.route('/register')
@@ -88,7 +89,7 @@ router.route('/register')
 router.post('/authenticate', (req, res, next) => {
     const login = req.body;
 
-    Users.getUserByMail(login.mail, (err, user) => {
+    Users.getSessionUserByMail(login.email, (err, user) => {
         if (err) {
             throw err;
         }
@@ -96,7 +97,7 @@ router.post('/authenticate', (req, res, next) => {
             return res.status(200).json({success: false, msg: errorMsg.noAccount})    
         }
 
-        Users.comparePassword(login.psw, user.psw, (err, isMatch) => {
+        Users.comparePassword(login.password, user.psw, (err, isMatch) => {
             if (err) {
                 throw err;
             }
@@ -105,18 +106,30 @@ router.post('/authenticate', (req, res, next) => {
                     expiresIn: 604800 // 1 semaine
                 });
 
-                res.json({
-                    success: true,
-                    token: `Bearer ${token}`,
-                    user: {
-                        id: user.id,
-                        lastname: user.lastname,
-                        firstname: user.firstname,
-                        mail: user.mail,
-                        avatar: user.avatar,
-                        sex: user.sex
+                getRolesByUsersId(user.id, (err, roles) => {
+                    
+                    if (err) {
+                        throw err;
                     }
-                });
+                    if (roles) {
+                        res.json({
+                            success: true,
+                            token: `Bearer ${token}`,
+                            user: {
+                                id: user.id,
+                                lastname: user.lastname,
+                                firstname: user.firstname,
+                                mail: user.mail,
+                                avatar: user.avatar,
+                                sex: user.sex,
+                                role: roles
+                            }
+                        });
+                    } else {
+                        return res.status(200).json({success: false, msg: infoMsg.userDontHaveRole})  
+                    }
+                })
+
             } else {
                 return res.status(200).json({success: false, msg: errorMsg.incorrectLogin})  
             }

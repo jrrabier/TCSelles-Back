@@ -34,9 +34,21 @@ module.exports.getUserMailById = (id, callback) => {
     });
 }
 
-module.exports.getUserByMail = (mail, callback) => {
+module.exports.getUserByMail = (email, callback) => {
     let req = 'SELECT * FROM tcselles.users WHERE mail = ?';
-    connection.query(req, [mail], (err, results) => {
+    connection.query(req, [email], (err, results) => {
+            if (err) {
+                callback(err);
+            }
+        callback(null, results[0]);
+    });
+}
+
+module.exports.getSessionUserByMail = (email, callback) => {
+    let req = 'SELECT id, firstname, lastname, mail, avatar, psw, sex ' +
+    'FROM tcselles.users ' +
+    'WHERE mail = ?';
+    connection.query(req, [email], (err, results) => {
             if (err) {
                 callback(err);
             }
