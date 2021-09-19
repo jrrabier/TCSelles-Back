@@ -27,6 +27,7 @@ const users = require('./controllers/users_ctrl');
 const meetings = require('./controllers/meetings_ctrl');
 const availabilities = require('./controllers/availabilities_ctrl');
 const articles = require('./controllers/articles_ctrl');
+const articlesCat = require('./controllers/articles_categories_ctrl');
 const comments = require('./controllers/comments_ctrl');
 const teams = require('./controllers/teams_ctrl');
 const users_teams = require('./controllers/users_teams_ctrl');
@@ -47,6 +48,7 @@ app.use(bodyParser.json());
 
 app.use('/users', users);
 app.use('/articles', articles);
+app.use('/home', articlesCat);
 app.use('/meetings', meetings);
 app.use('/availabilities', availabilities);
 app.use('/comments', comments);

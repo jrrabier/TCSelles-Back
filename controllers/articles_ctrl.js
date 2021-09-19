@@ -32,19 +32,30 @@ router.get('/show', (req, res) => {
 router.get('/show/:id', (req, res) => {
     let id = req.params.id;
 
-    Articles.getArticle(id, (err, article) => {
-        if (err) {
-            res.status(200).json({success: false, msg: errorMsg.generalError});
-        } else {
-            getCommentsByArticle(id, (err, comments) => {
-                if (err) {
-                    res.status(200).json({success: false, msg: errorMsg.generalError});
-                } else {
-                    res.status(200).json({success: true, article, comments});
-                }
-            });
-        }
-    });
+    if (id === '0') {
+        Articles.getAllArticles((err, articles) => {
+            if (err) {
+                res.status(200).json({success: false, msg: errorMsg.generalError});
+            } else {
+                res.status(200).json({success: true, articles});
+            }
+        });
+    } else {
+        Articles.getArticle(id, (err, article) => {
+            if (err) {
+                res.status(200).json({success: false, msg: errorMsg.generalError});
+            } else {
+                getCommentsByArticle(id, (err, comments) => {
+                    if (err) {
+                        res.status(200).json({success: false, msg: errorMsg.generalError});
+                    } else {
+                        res.status(200).json({success: true, article, comments});
+                    }
+                });
+            }
+        });
+    }
+
 
 });
 
