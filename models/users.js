@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const errorMsg = require('../assets/messages/error-messages.json')
+const errorMsg = require('../assets/messages/error-messages.json');
 
 module.exports.getAllUsers = (callback) => {
     let req = 'SELECT * FROM tcselles.users';
@@ -44,37 +44,29 @@ module.exports.getUserByMail = (email, callback) => {
     });
 }
 
-module.exports.getSessionUserByMail = (email, callback) => {
-    let req = 'SELECT id, firstname, lastname, mail, avatar, psw, sex ' +
-    'FROM tcselles.users ' +
-    'WHERE mail = ?';
-    connection.query(req, [email], (err, results) => {
-            if (err) {
-                callback(err);
-            }
-        callback(null, results[0]);
-    });
-}
+// module.exports.getSessionUserByMail = (email, callback) => {
+//     let req = 'SELECT id, firstname, lastname, mail, avatar, psw, sex ' +
+//     'FROM tcselles.users ' +
+//     'WHERE mail = ?';
+//     connection.query(req, [email], (err, results) => {
+//             if (err) {
+//                 callback(err);
+//             }
+//         callback(null, results[0]);
+//     });
+// }
 
 module.exports.addUser = (newUser) => {
     return new Promise((resolve, reject) => {
-        bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(newUser.psw, salt, (err, hash) => {
-                if (err) {
-                    callback(err);
-                }
-                newUser.psw = hash;
-    
-                let req = 'INSERT INTO tcselles.users SET ?';
-                connection.query(req, newUser, (err, results) => {
-                    if (err) {
-                        reject(err);
-                    }
-                    resolve(results);
-                });
-            });
+        newUser.psw = bcrypt.hashSync(newUser.psw, 10);
+        let req = 'INSERT INTO tcselles.users SET ?';
+        connection.query(req, newUser, (err, results) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(results);
         });
-    })
+    });
 }
 
 module.exports.updateUser = (updatedUser, callback) => {
@@ -101,13 +93,8 @@ module.exports.deleteUser = (id, callback) => {
     });
 }
 
-module.exports.comparePassword = (candidatePassword, hash, callback) => {
-    bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
-        if (err) {
-            callback(err);
-        }
-        callback(null, isMatch);
-    });
+module.exports.comparePassword = (candidatePassword, hash) => {
+    return bcrypt.compareSync(candidatePassword, hash);
 }
 
 module.exports.updatePassword = (user, newPassword, callback) => {

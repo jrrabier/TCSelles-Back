@@ -5,6 +5,12 @@ module.exports.isPasswordValid = (password) => {
     return PSWREGEX.test(password);
 }
 
+/**
+ * 
+ * @param {string} mail 
+ * @returns {boolean}
+ */
 module.exports.isMailValid = (mail) => {
-    return MAILREGEX.test(mail);
+    // return MAILREGEX.test(mail);
+    return mail.match(MAILREGEX) != null;
 }

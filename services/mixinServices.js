@@ -46,7 +46,7 @@ module.exports.getSeasonYears = () => {
 /**
  * Method to get the user's season age
  * Users belong to a category based on the age they will have during the season to come
- * @param {Date} birthDate user's birth date
+ * @param {string} birthDate user's birth date
  * @returns {number} seasonAge
  */
 module.exports.getUserSeasonAge = (birthDate) => {

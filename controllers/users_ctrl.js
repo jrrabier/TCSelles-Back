@@ -62,6 +62,9 @@ router.route('/register')
                                     }
                                 });
                             }
+                        },
+                        error => {
+                            console.error(error);
                         }
                     );
                 }
@@ -89,7 +92,7 @@ router.route('/register')
 router.post('/authenticate', (req, res, next) => {
     const login = req.body;
 
-    Users.getSessionUserByMail(login.email, (err, user) => {
+    Users.getUserByMail(login.email, (err, user) => {
         if (err) {
             throw err;
         }
@@ -97,49 +100,36 @@ router.post('/authenticate', (req, res, next) => {
             return res.status(200).json({success: false, msg: errorMsg.noAccount})    
         }
 
-        Users.comparePassword(login.password, user.psw, (err, isMatch) => {
-            if (err) {
-                throw err;
-            }
-            if (isMatch) {
-                const token = jwt.sign({user}, config.secret, {
-                    expiresIn: 604800 // 1 semaine
-                });
+        if (Users.comparePassword(login.password, user.psw)) {
+            const token = jwt.sign({user}, config.secret, {
+                expiresIn: 604800 // 1 semaine
+            });
 
-                getRolesByUsersId(user.id, (err, roles) => {
-                    
-                    if (err) {
-                        throw err;
-                    }
-                    if (roles) {
-                        res.json({
-                            success: true,
-                            token: `Bearer ${token}`,
-                            user: {
-                                id: user.id,
-                                lastname: user.lastname,
-                                firstname: user.firstname,
-                                mail: user.mail,
-                                avatar: user.avatar,
-                                sex: user.sex,
-                                role: roles
-                            }
-                        });
-                    } else {
-                        return res.status(200).json({success: false, msg: infoMsg.userDontHaveRole})  
-                    }
-                })
+            getRolesByUsersId(user.id, (err, roles) => {
+                
+                if (err) {
+                    throw err;
+                }
+                if (roles) {
+                    res.json({
+                        success: true,
+                        token: `Bearer ${token}`,
+                        user: user
+                    });
+                } else {
+                    return res.status(200).json({success: false, msg: infoMsg.userDontHaveRole})  
+                }
+            })
 
-            } else {
-                return res.status(200).json({success: false, msg: errorMsg.incorrectLogin})  
-            }
-        });
+        } else {
+            return res.status(200).json({success: false, msg: errorMsg.incorrectLogin})  
+        }
     });
 });
 
-router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res) => {
-    res.json(req.user);
-});
+// router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res) => {
+//     res.json(req.user);
+// });
 
 router.post('/update', (req, res) => {
     let updatedUser = req.body;
