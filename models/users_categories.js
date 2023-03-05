@@ -4,7 +4,7 @@
  * @param callback 
  */
 module.exports.addUserCategories = (newUserCategories, callback) => {
-    let req = 'INSERT INTO tcselles.users_categories SET ?';
+    let req = 'INSERT INTO tennisclub.users_categories SET ?';
 
     connection.query(req, newUserCategories, (err, result) => {
         if (err) {
@@ -20,7 +20,7 @@ module.exports.addUserCategories = (newUserCategories, callback) => {
  * @param callback 
  */
 module.exports.getAllCategoriesByUser = (user_id, callback) => {
-    let req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles';
+    let req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tennisclub.articles';
 
     connection.query(req, (err, result) => {
         if (err) {
@@ -36,7 +36,7 @@ module.exports.getAllCategoriesByUser = (user_id, callback) => {
  * @param callback 
  */
 module.exports.getAllUsersByCategory = (category_id, callback) => {
-    let req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tcselles.articles WHERE id=?';
+    let req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tennisclub.articles WHERE id=?';
 
     connection.query(req, category_id, (err, result) => {
         if (err) {
@@ -51,7 +51,7 @@ module.exports.getAllUsersByCategory = (category_id, callback) => {
  * @param callback 
  */
 module.exports.updateUserCategories = (callback) => {
-    let req = "UPDATE tcselles.articles SET ? WHERE id=?";
+    let req = "UPDATE tennisclub.articles SET ? WHERE id=?";
 
     connection.query(req, [updatedUserCategory, updatedUserCategory.id], (err, result) => {
         if (err) {
@@ -68,7 +68,7 @@ module.exports.updateUserCategories = (callback) => {
  * @param callback
  */
 module.exports.deleteUserCategory = (user_id, category_id, callback) => {
-    let req = "DELETE FROM tcselles.users_categories WHERE users_id=?, categories_id=?";
+    let req = "DELETE FROM tennisclub.users_categories WHERE users_id=?, categories_id=?";
 
     connection.query(req, [user_id, category_id], (err, result) => {
         if (err) {

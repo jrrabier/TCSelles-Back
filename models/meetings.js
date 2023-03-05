@@ -2,7 +2,7 @@ const mixinServices = require('../services/mixinServices');
 
 module.exports.addMeeting = (newMeeting, callback) => {
     let season_years = mixinServices.getSeasonYears();
-    let req = 'INSERT INTO tcselles.meetings SET ?';
+    let req = 'INSERT INTO tennisclub.meetings SET ?';
     newMeeting.season_years = season_years;
 
     connection.query(req, newMeeting, (err, result) => {
@@ -14,7 +14,7 @@ module.exports.addMeeting = (newMeeting, callback) => {
 }
 
 module.exports.getAllMeetings = (callback) => {
-    let req = 'SELECT id, categories_id, `date`, sex, season, season_years FROM tcselles.meetings';
+    let req = 'SELECT id, categories_id, `date`, sex, season, season_years FROM tennisclub.meetings';
 
     connection.query(req, (err, result) => {
         if (err) {
@@ -25,7 +25,7 @@ module.exports.getAllMeetings = (callback) => {
 }
 
 module.exports.getMeeting = (id, callback) => {
-    let req = 'SELECT id, categories_id, `date`, sex, season, season_years FROM tcselles.meetings WHERE id=?';
+    let req = 'SELECT id, categories_id, `date`, sex, season, season_years FROM tennisclub.meetings WHERE id=?';
 
     connection.query(req, id, (err, result) => {
         if (err) {
@@ -36,7 +36,7 @@ module.exports.getMeeting = (id, callback) => {
 }
 
 module.exports.updateMeeting = (updatedMeeting, callback) => {
-    let req = "UPDATE tcselles.meetings SET ? WHERE id=?";
+    let req = "UPDATE tennisclub.meetings SET ? WHERE id=?";
 
     connection.query(req, [updatedMeeting, updatedMeeting.id], (err, result) => {
         if (err) {
@@ -48,7 +48,7 @@ module.exports.updateMeeting = (updatedMeeting, callback) => {
 }
 
 module.exports.deleteMeeting = (id, callback) => {
-    let req = "DELETE FROM tcselles.meetings WHERE id=?";
+    let req = "DELETE FROM tennisclub.meetings WHERE id=?";
 
     connection.query(req, id, (err, result) => {
         if (err) {
@@ -60,7 +60,7 @@ module.exports.deleteMeeting = (id, callback) => {
 
 module.exports.isMeetingExist = (meeting) => {
     return new Promise((resolve, reject) => {
-        let req = 'SELECT id, categories_id, `date`, sex FROM tcselles.meetings WHERE categories_id=? AND `date`=? AND sex=?';
+        let req = 'SELECT id, categories_id, `date`, sex FROM tennisclub.meetings WHERE categories_id=? AND `date`=? AND sex=?';
     
         connection.query(req, [meeting.categories_id, meeting.date, meeting.sex], (err, result) => {
             if (err) {

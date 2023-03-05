@@ -3,13 +3,13 @@ module.exports = {
         host: 'localhost',
         user: 'root',
         password: 'Jslc27142804*',
-        database: 'tcselles'
+        database: 'tennisclub'
     },
     databaseProd: {
         host: 'localhost',
         user: 'root',
         password: 'Jslc27142804*',
-        database: 'tcselles'
+        database: 'tennisclub'
     },
     secret: 'HastaLaVistaBaby'
 }

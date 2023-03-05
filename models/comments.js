@@ -4,7 +4,7 @@
  * @param callback 
  */
 module.exports.addComment = (newComment, callback) => {
-    let req = 'INSERT INTO tcselles.comments SET ?';
+    let req = 'INSERT INTO tennisclub.comments SET ?';
 
     connection.query(req, newComment, (err, result) => {
         if (err) {
@@ -20,7 +20,7 @@ module.exports.addComment = (newComment, callback) => {
  * @param callback 
  */
 module.exports.getCommentsByArticle = (article_id, callback) => {
-    let req = 'SELECT id, message, created_at, updated_at, users_id FROM tcselles.comments WHERE articles_id = ?';
+    let req = 'SELECT id, message, created_at, updated_at, users_id FROM tennisclub.comments WHERE articles_id = ?';
 
     connection.query(req, article_id, (err, result) => {
         if (err) {
@@ -37,7 +37,7 @@ module.exports.getCommentsByArticle = (article_id, callback) => {
  */
 module.exports.updateComment = (updatedComment, callback) => {
     updatedComment.updated_at = new Date;
-    let req = "UPDATE tcselles.comments SET ? WHERE id=?";
+    let req = "UPDATE tennisclub.comments SET ? WHERE id=?";
 
     connection.query(req, [updatedComment, updatedComment.id], (err, result) => {
         if (err) {
@@ -53,7 +53,7 @@ module.exports.updateComment = (updatedComment, callback) => {
  * @param callback 
  */
 module.exports.deleteComment = (id, callback) => {
-    let req = "DELETE FROM tcselles.comments WHERE id=?";
+    let req = "DELETE FROM tennisclub.comments WHERE id=?";
 
     connection.query(req, id, (err, result) => {
         if (err) {

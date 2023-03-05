@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const errorMsg = require('../assets/messages/error-messages.json');
 
 module.exports.getAllUsers = (callback) => {
-    let req = 'SELECT * FROM tcselles.users';
+    let req = 'SELECT * FROM tennisclub.users';
     connection.query(req, (err, results) => {
             if (err) {
                 callback(err);
@@ -13,7 +13,7 @@ module.exports.getAllUsers = (callback) => {
 
 module.exports.getUserById = (id, callback) => {
     let req = 'SELECT id, mail, lastname, firstname, birthdate, phone, avatar, address, postalcode, city, licence_nb, levels_id, sex ' + 
-    'FROM tcselles.users ' +
+    'FROM tennisclub.users ' +
     'WHERE id = ?';
 
     connection.query(req, id, (err, results) => {
@@ -25,7 +25,7 @@ module.exports.getUserById = (id, callback) => {
 }
 
 module.exports.getUserMailById = (id, callback) => {
-    let req = 'SELECT mail FROM tcselles.users WHERE id = ?';
+    let req = 'SELECT mail FROM tennisclub.users WHERE id = ?';
     connection.query(req, id, (err, mail) => {
             if (err) {
                 callback(err);
@@ -35,7 +35,7 @@ module.exports.getUserMailById = (id, callback) => {
 }
 
 module.exports.getUserByMail = (email, callback) => {
-    let req = 'SELECT * FROM tcselles.users WHERE mail = ?';
+    let req = 'SELECT * FROM tennisclub.users WHERE mail = ?';
     connection.query(req, [email], (err, results) => {
             if (err) {
                 callback(err);
@@ -46,7 +46,7 @@ module.exports.getUserByMail = (email, callback) => {
 
 // module.exports.getSessionUserByMail = (email, callback) => {
 //     let req = 'SELECT id, firstname, lastname, mail, avatar, psw, sex ' +
-//     'FROM tcselles.users ' +
+//     'FROM tennisclub.users ' +
 //     'WHERE mail = ?';
 //     connection.query(req, [email], (err, results) => {
 //             if (err) {
@@ -59,7 +59,7 @@ module.exports.getUserByMail = (email, callback) => {
 module.exports.addUser = (newUser) => {
     return new Promise((resolve, reject) => {
         newUser.psw = bcrypt.hashSync(newUser.psw, 10);
-        let req = 'INSERT INTO tcselles.users SET ?';
+        let req = 'INSERT INTO tennisclub.users SET ?';
         connection.query(req, newUser, (err, results) => {
             if (err) {
                 reject(err);
@@ -70,7 +70,7 @@ module.exports.addUser = (newUser) => {
 }
 
 module.exports.updateUser = (updatedUser, callback) => {
-    let req = 'UPDATE tcselles.users SET ? WHERE id = ?';
+    let req = 'UPDATE tennisclub.users SET ? WHERE id = ?';
 
     connection.query(req, [updatedUser, updatedUser.id], (err, results) => {
         if (err) {
@@ -82,7 +82,7 @@ module.exports.updateUser = (updatedUser, callback) => {
 }
 
 module.exports.deleteUser = (id, callback) => {
-    let req = 'DELETE FROM tcselles.users WHERE id = ?';
+    let req = 'DELETE FROM tennisclub.users WHERE id = ?';
 
     connection.query(req, id, (err, results) => {
         if (err) {
@@ -111,7 +111,7 @@ module.exports.updatePassword = (user, newPassword, callback) => {
 
 module.exports.isUserExist = (mail) => {
     return new Promise((resolve, reject) => {
-        let req = 'SELECT mail FROM tcselles.users WHERE mail=?';
+        let req = 'SELECT mail FROM tennisclub.users WHERE mail=?';
     
         connection.query(req, mail, (err, result) => {
             if (err) {
@@ -124,8 +124,8 @@ module.exports.isUserExist = (mail) => {
 
 module.exports.getUserSexAndCatById = (id) => {
     return new Promise((resolve, reject) => {
-        let req = 'SELECT sex, uc.categories_id FROM tcselles.users ' +
-            'INNER JOIN tcselles.users_categories uc ON id = uc.users_id ' +
+        let req = 'SELECT sex, uc.categories_id FROM tennisclub.users ' +
+            'INNER JOIN tennisclub.users_categories uc ON id = uc.users_id ' +
             'WHERE id=?';
 
         connection.query(req, id, (err, result) => {

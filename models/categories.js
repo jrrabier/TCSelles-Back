@@ -6,7 +6,7 @@ const { connect } = require("../controllers/teams_ctrl");
  * @param callback 
  */
 module.exports.getCategoryIdsByAge = (age, callback) => {
-    let req = 'SELECT id FROM tcselles.categories WHERE ? BETWEEN age_start AND age_end';
+    let req = 'SELECT id FROM tennisclub.categories WHERE ? BETWEEN age_start AND age_end';
 
     connection.query(req, age, (err, result) => {
         if (err) {
@@ -17,15 +17,15 @@ module.exports.getCategoryIdsByAge = (age, callback) => {
 }
 
 // SELECT id, label, sex
-// FROM tcselles.categories;
+// FROM tennisclub.categories;
 
-// INSERT INTO tcselles.categories
+// INSERT INTO tennisclub.categories
 // (label, sex)
 // VALUES('', '');
 
-// UPDATE tcselles.categories
+// UPDATE tennisclub.categories
 // SET label='', sex=''
 // WHERE id=0;
 
-// DELETE FROM tcselles.categories
+// DELETE FROM tennisclub.categories
 // WHERE id=0;

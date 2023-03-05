@@ -4,7 +4,7 @@
  * @param callback 
  */
 module.exports.addTeam = (newTeam, callback) => {
-    let req = 'INSERT INTO tcselles.teams SET ?';
+    let req = 'INSERT INTO tennisclub.teams SET ?';
 
     connection.query(req, newTeam, (err, result) => {
         if (err) {
@@ -20,9 +20,9 @@ module.exports.addTeam = (newTeam, callback) => {
  */
 module.exports.getAllTeams = (callback) => {
     let req = 'SELECT t.id, nb, t.sex, lastname, firstname, label ' + 
-    'FROM tcselles.teams t ' +
-    'LEFT JOIN tcselles.users u ON users_id = u.id ' + 
-    'LEFT JOIN tcselles.categories cat ON categories_id = cat.id';
+    'FROM tennisclub.teams t ' +
+    'LEFT JOIN tennisclub.users u ON users_id = u.id ' + 
+    'LEFT JOIN tennisclub.categories cat ON categories_id = cat.id';
 
     connection.query(req, (err, result) => {
         if (err) {
@@ -39,9 +39,9 @@ module.exports.getAllTeams = (callback) => {
  */
 module.exports.getTeam = (id, callback) => {
     let req = 'SELECT t.id, nb, t.sex, lastname, firstname, label ' +
-    'FROM tcselles.teams t ' +
-    'LEFT JOIN tcselles.users u ON users_id = u.id ' +
-    'LEFT JOIN tcselles.categories cat ON categories_id = cat.id ' +
+    'FROM tennisclub.teams t ' +
+    'LEFT JOIN tennisclub.users u ON users_id = u.id ' +
+    'LEFT JOIN tennisclub.categories cat ON categories_id = cat.id ' +
     'WHERE t.id = ?';
 
     connection.query(req, id, (err, result) => {
@@ -58,7 +58,7 @@ module.exports.getTeam = (id, callback) => {
  * @param callback 
  */
 module.exports.updateTeam = (updatedTeam, callback) => {
-    let req = "UPDATE tcselles.teams SET ? WHERE id=?";
+    let req = "UPDATE tennisclub.teams SET ? WHERE id=?";
 
     connection.query(req, [updatedTeam, updatedTeam.id], (err, result) => {
         if (err) {
@@ -74,7 +74,7 @@ module.exports.updateTeam = (updatedTeam, callback) => {
  * @param callback 
  */
 module.exports.deleteTeam = (id, callback) => {
-    let req = "DELETE FROM tcselles.teams WHERE id=?";
+    let req = "DELETE FROM tennisclub.teams WHERE id=?";
 
     connection.query(req, id, (err, result) => {
         if (err) {
@@ -86,7 +86,7 @@ module.exports.deleteTeam = (id, callback) => {
 
 module.exports.isTeamExist = (team) => {
     return new Promise((resolve, reject) => {
-        let req = 'SELECT id, nb, sex, users_id, categories_id FROM tcselles.teams WHERE nb=? AND sex=? AND categories_id=?';
+        let req = 'SELECT id, nb, sex, users_id, categories_id FROM tennisclub.teams WHERE nb=? AND sex=? AND categories_id=?';
     
         connection.query(req, [team.nb, team.sex, team.categories_id], (err, result) => {
             if (err) {
@@ -99,7 +99,7 @@ module.exports.isTeamExist = (team) => {
 
 module.exports.getTeamSexAndCatById = (id) => {
     return new Promise((resolve, reject) => {
-        let req = 'SELECT sex, categories_id FROM tcselles.teams WHERE id=?';
+        let req = 'SELECT sex, categories_id FROM tennisclub.teams WHERE id=?';
 
         connection.query(req, id, (err, result) => {
             if (err) {

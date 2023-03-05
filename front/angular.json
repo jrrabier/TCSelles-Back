@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "../tcselles/public",
+            "outputPath": "../public",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -122,7 +122,7 @@
       }
     }
   },
-  "defaultProject": "tcselles-front",
+  "defaultProject": "tennisclub-front",
   "cli": {
     "analytics": false
   }
