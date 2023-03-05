@@ -1,0 +1,7 @@
+{
+    "invalidFeedback": {
+        "mail": "Format de l'email invalide",
+        "required": "Champ obligatoire",
+        "mobile": "Format incorrect"
+    }
+}

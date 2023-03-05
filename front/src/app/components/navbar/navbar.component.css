@@ -1,0 +1,13 @@
+.navbar-brand img {
+  width: 30px;
+  height: 30px;
+}
+
+#avatar  {
+  width: 20px;
+  height: 20px;
+}
+
+.navbar {
+  box-shadow: 0 3px 5px black;
+}

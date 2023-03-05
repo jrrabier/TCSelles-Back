@@ -1,0 +1,51 @@
+<div class="container hasNavbar">
+    <div *ngIf="isRequestingCategories then loading else homePage">
+    </div>
+    <ng-template #loading>
+        <app-loading></app-loading>
+    </ng-template>
+    <ng-template #homePage>
+        <form [formGroup]="categoriesForm" (ngSubmit)="onSubmit()">
+            <div class="d-flex justify-content-center">
+                <div class="mr-2" *ngFor="let categories of categoriesList" role="group" aria-label="Boutons pour sélectionner les catégories d'articles">
+                    <input type="radio" class="btn-check" formControlName="articleCategory" [id]="categories.label" autocomplete="off" checked="" [value]="categories.id">
+                    <label class="btn btn-outline-secondary" [for]="categories.label">
+                        {{ categories.label }}
+                    </label>
+                </div>
+            </div>
+        </form>
+        <div *ngIf="isRequestingArticles then loadingArticles else articles"></div>
+        <ng-template #loadingArticles>
+            <app-loading></app-loading>
+        </ng-template>
+        <ng-template #articles>
+            <div class="row g-3 mt-3">
+                <div *ngFor="let article of articlesList" class="col-md-3">
+                    <div class="card shadow-lg h-100">
+                        <div class="card-header">
+                            <h5 class="card-title">{{ article.title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted"> {{ article.label }} </h6>
+                        </div>
+                        <div class="card-body">
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        </div>
+                        <div class="card-footer">
+                            <cl-image [public-id]="article.avatar" class="img-fluid rounded d-inline-block align-top" alt="avatar">
+                                <cl-transformation width="20" crop="scale">
+                                </cl-transformation>
+                            </cl-image>
+                            {{ article.firstname | truncateFirstName }}&nbsp;{{ article.lastname | titlecase}}&nbsp;<small class="text-muted">le {{ article.created_at}}</small> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#articleModal" (click)="mode = 'create'">
+            Launch demo modal
+        </button>
+        <app-article-modal [mode]="mode" (refreshArticles)="onSubmit()"></app-article-modal>
+    </ng-template>
+</div>

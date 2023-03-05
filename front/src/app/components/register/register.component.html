@@ -1,0 +1,162 @@
+<div class="container hasNavbar">
+    <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+        <div class="mb-3 col-md-6">
+            <div class="d-flex flex-row mb-3">
+                <div class="col-6 text-center col">
+                    <img class="img-fluid rounded" src={{imgSrc}} alt="avatar">
+                </div>
+                <div class="d-flex flex-column col-6 my-auto">
+                    <div *ngFor="let sex of sexesList" role="group" aria-label="Bouton radios pour choisir le sexe">
+                        <input type="radio" class="btn-check" formControlName="sex" [value]="sex.value" [id]="sex.id" autocomplete="off" checked="" required>
+                        <label class="btn btn-outline-secondary" [for]="sex.id">
+                            {{ sex.label }}&nbsp;
+                            <fa-icon [icon]="sex.icon"></fa-icon>
+                        </label>
+                        <div *ngIf="registerForm.get('sex').getError('required')" class="invalid-feedback">
+                            {{ rsc.invalidFeedback.required }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-column">
+            <div class="d-flex flex-column flex-md-row">
+                <div class="mb-3 col">
+                    <div class="form-floating mb-3">
+                        <input placeholder="Rabier" type="text" formControlName="lastname" 
+                        [class]="{
+                            'form-control':true,
+                            'is-invalid': registerForm.get('lastname')?.invalid && registerForm.get('lastname').dirty,
+                            'is-valid': registerForm.get('lastname')?.valid
+                    }" id="lastName" required>
+                        <label for="lastName" required>Nom</label>
+                        <div *ngIf="registerForm.get('lastname').getError('required')" class="invalid-feedback">
+                            {{ rsc.invalidFeedback.required }}
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input placeholder="Jérôme" type="text" formControlName="firstname" 
+                        [class]="{
+                            'form-control':true,
+                            'is-invalid': registerForm.get('firstname')?.invalid && registerForm.get('firstname').dirty,
+                            'is-valid': registerForm.get('firstname')?.valid
+                    }" id="firstName" aria-describedby="emailHelp" required>
+                        <label for="firstName" required>Prénom</label>
+                        <div *ngIf="registerForm.get('firstname').getError('required')" class="invalid-feedback">
+                            {{ rsc.invalidFeedback.required }}
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input placeholder="27/01/1986" type="date" formControlName="birthdate" 
+                        [class]="{
+                            'form-control':true,
+                            'is-invalid': registerForm.get('birthdate')?.invalid && registerForm.get('birthdate').dirty,
+                            'is-valid': registerForm.get('birthdate')?.valid
+                    }" id="birthDate" required>
+                        <label for="birthDate" required>Date de naissance</label>
+                        <div *ngIf="registerForm.get('birthdate').getError('required')" class="invalid-feedback">
+                            {{ rsc.invalidFeedback.required }}
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 col">
+                    <div class="form-floating mb-3">
+                        <select 
+                        [class]="{
+                            'form-select':true,
+                            'is-invalid': registerForm.get('levels_id')?.invalid && registerForm.get('levels_id').dirty,
+                            'is-valid': registerForm.get('levels_id')?.valid
+                    }"  formControlName="levels_id" aria-label="liste des classements" id="levels_id" required>
+                            <option *ngFor="let level of levels" [value]="level.id">
+                                {{ level.label }}
+                            </option>
+                        </select>
+                        <label for="levels_id" required>Classement</label>
+                        <div *ngIf="registerForm.get('levels_id').getError('required')" class="invalid-feedback">
+                            {{ rsc.invalidFeedback.required }}
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input placeholder="2340404S" type="text" formControlName="licence_nb" 
+                        [class]="{
+                            'form-control':true,
+                            'is-invalid': registerForm.get('licence_nb')?.invalid && registerForm.get('licence_nb').dirty,
+                            'is-valid': registerForm.get('licence_nb')?.valid
+                    }" [textMask]="{mask: maskLicenceNb, guide: false}" id="licence_nb" required>
+                        <label for="licence_nb" required>N° de licence</label>
+                        <div *ngIf="registerForm.get('licence_nb').getError('required')" class="invalid-feedback">
+                            {{ rsc.invalidFeedback.required }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column flex-md-row">
+                <div class="mb-3 col">
+                    <div class="form-floating mb-3">
+                        <input placeholder="name@example.com" type="mail" formControlName="mail" 
+                        [class]="{
+                            'form-control':true,
+                            'is-invalid': registerForm.get('mail')?.invalid && registerForm.get('mail').dirty,
+                            'is-valid': registerForm.get('mail')?.valid
+                    }"  id="mail" required>
+                        <label for="mail" required>Email</label>
+                        <div *ngIf="registerForm.get('mail').getError('required')" class="invalid-feedback">
+                            {{ rsc.invalidFeedback.required }}
+                        </div>
+                        <div *ngIf="registerForm.get('mail').getError('pattern')" class="invalid-feedback">
+                            {{ rsc.invalidFeedback.mail }}
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input placeholder="0254976179" type="phone" formControlName="phone" 
+                        [class]="{
+                            'form-control':true,
+                            'is-invalid': registerForm.get('phone')?.invalid && registerForm.get('phone').dirty,
+                            'is-valid': registerForm.get('phone')?.valid && registerForm.get('phone').value != ''
+                    }" [textMask]="{mask: maskMobile, guide: false}" id="phone">
+                        <label for="phone">Mobile</label>
+                        <div *ngIf="registerForm.get('phone').getError('pattern')" class="invalid-feedback">
+                            {{ rsc.invalidFeedback.phone }}
+                        </div>
+                    </div>
+                </div>
+            <div class="mb-3 col">
+                <div class="input-group form-floating mb-3">
+                    <input placeholder="password" [type]="showPassword ? 'text' : 'password'" formControlName="psw" 
+                        [class]="{
+                            'form-control':true,
+                            'is-invalid': registerForm.get('psw')?.invalid && registerForm.get('psw').dirty,
+                            'is-valid': registerForm.get('psw')?.valid
+                    }"  id="password" required>
+                    <label for="password" required>Mot de passe</label>
+                    <span class="input-group-text" (click)="showPassword = !showPassword">
+                        <fa-icon *ngIf="!showPassword" icon="eye-slash"></fa-icon>
+                        <fa-icon *ngIf="showPassword" icon="eye"></fa-icon>
+                    </span>
+                </div>
+                <div class="input-group form-floating mb-3">
+                    <input placeholder="password" [type]="showconfirmPassword ? 'text' : 'password'" formControlName="confirmpassword" 
+                        [class]="{
+                            'form-control':true,
+                            'is-invalid': registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword').dirty,
+                            'is-valid': registerForm.get('confirmPassword')?.valid
+                    }"  id="confirmPassword"
+                        required>
+                    <label for="confirmPassword" required>Confirmez votre mot de passe</label>
+                    <span class="input-group-text" (click)="showconfirmPassword = !showconfirmPassword">
+                        <fa-icon *ngIf="!showconfirmPassword" icon="eye-slash"></fa-icon>
+                        <fa-icon *ngIf="showconfirmPassword" icon="eye"></fa-icon>
+                    </span>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <app-compulsory></app-compulsory>
+            <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">
+                M'inscrire
+            </button>
+        </div>
+        <input type="file" formControlName="avatar" class="form-control-file" id="avatar">
+    </form>
+</div>

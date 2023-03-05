@@ -1,0 +1,15 @@
+<div class="form-floating mb-3">
+    <input placeholder="name@example.com" [type]="type" [formControlName]="name" 
+    [class]="{
+        'form-control':true,
+        'is-invalid': control?.invalid && control.dirty,
+        'is-valid': control?.valid
+}"  id="email" required>
+    <label class="required" [for]="name"> {{ label }} </label>
+    <div *ngIf="control.getError('required')" class="invalid-feedback">
+        {{ rsc.invalidFeedback.required }}
+    </div>
+    <div *ngIf="control.getError('pattern')" class="invalid-feedback">
+        {{ rsc.invalidFeedback.name }}
+    </div>
+</div>

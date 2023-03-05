@@ -1,0 +1,11 @@
+.loading-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    background: url('../../../../assets/logos/tcsellesFullLogoLoading.svg') no-repeat center;
+}
+
+.spinner-border {
+    width: 100px;
+    height: 100px;
+}

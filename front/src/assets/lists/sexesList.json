@@ -1,0 +1,14 @@
+[
+    {
+        "label": "Homme",
+        "value": "M",
+        "id": "sexM",
+        "icon": "mars"
+    },
+    {
+        "label": "Femme",
+        "value": "F",
+        "id": "sexF",
+        "icon": "venus"
+    }
+]

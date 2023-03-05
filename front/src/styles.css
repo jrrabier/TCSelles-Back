@@ -1,0 +1,51 @@
+html, body {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(-45deg,#18BC9C, #ffffff,#ffffff,#ffffff, #2C3E50) no-repeat;
+}
+
+/* div.container-fluid {
+  margin-top: 72px;
+} */
+
+label[required]::after {
+  content: " *";
+  color: #18BC9C;
+}
+
+
+/* FLASH GREY OUT */
+
+#grayOutDiv
+{
+    background-color: #333;
+    opacity: 0.7;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+/* le label disparaît au focus dans les class input-group */
+.input-group label {
+  z-index: 10;
+}
+
+/* Pour faire disparaître l'icone d'oeil automatique */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+.hasNavbar {
+    padding-top: 8em;
+}
+
+.pointer {
+    cursor: pointer;
+}

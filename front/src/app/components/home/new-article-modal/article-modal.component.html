@@ -1,0 +1,51 @@
+  <!-- Modal -->
+  <div class="modal fade" id="articleModal" tabindex="-1" aria-labelledby="articleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="articleModalLabel"> {{ modalTitle }} </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #close></button>
+        </div>
+            <div class="modal-body">
+                <form [formGroup]="articleForm">
+                    <div class="row">
+                        <div class="col">
+                            <div class="text-center">
+                                <cl-image public-id="articles/image_placeholder" class="img-thumbnail pointer" alt="avatar" (click)="inputFile.click()">
+                                    <cl-transformation gravity="face" width="200" crop="thumb">
+                                    </cl-transformation>
+                                </cl-image>
+                            </div>
+                            <input #inputFile class="form-control" type="file" id="formFile" formControlName="image" [value]="">
+                        </div>
+                        <div class="col">
+                            <div class="justify-content-center">
+                                <label for="formFile" class="form-label" required>Catégorie :</label>
+                                <div class="d-flex mb-3">
+                                    <div *ngFor="let category of categoriesList" class="mr-2" role="group" aria-label="Boutons pour sélectionner les catégories d'articles">
+                                        <input type="radio" class="btn-check" formControlName="articles_categories_id" autocomplete="off" checked="" [id]="category.id" 
+                                        [value]="category.id" required>
+                                        <label class="btn btn-outline-secondary" [for]="category.id"> {{ category.label }} </label>
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" formControlName="title" [value]="title.value" id="title" placeholder="Titre" required>
+                                    <label for="title" required>Titre</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <label for="content" required>Article :</label>
+                        <ckeditor [editor]="Editor" data="Hello" formControlName="content" id="content"></ckeditor>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <app-compulsory></app-compulsory>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-success" [disabled]="!articleForm.valid" (click)="onSubmit()">
+                    {{ modalAction }}
+                </button>
+            </div>
+      </div>
+    </div>
+  </div>
