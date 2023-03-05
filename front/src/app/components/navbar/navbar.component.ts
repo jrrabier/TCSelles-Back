@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
 import { SessionUser } from 'src/app/models/sessionUser';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,12 +12,13 @@ import { SessionUser } from 'src/app/models/sessionUser';
 })
 export class NavbarComponent implements OnInit {
     // @Input() sessionUser: SessionUser;
-    sessionUser = this.authService.user$;
+    sessionUser: SessionUser = this.sessionService.getCurrentUser();
 
   constructor(
     public authService: AuthService,
     private router: Router,
-    private flashMessages: FlashMessagesService
+    private flashMessages: FlashMessagesService,
+    private sessionService: SessionService
   ) {}
 
   ngOnInit() {

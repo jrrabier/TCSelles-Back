@@ -4,11 +4,9 @@ import { User } from '../models/user';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { environment } from 'src/environments/environment';
 import { FormGroup } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
 import { PostResponse } from '../interfaces/post-response';
 import { AuthResponse } from '../interfaces/auth-response';
-import { ActivatedRoute } from '@angular/router';
-import { SessionUser } from '../models/sessionUser';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,16 +14,12 @@ import { SessionUser } from '../models/sessionUser';
 export class AuthService {
 
   authToken: any;
-  user: User;
-
-  user$ = JSON.parse(sessionStorage.getItem('user'));
-
   headers: HttpHeaders;
 
   constructor(
     private http: HttpClient,
     private jwtHelper: JwtHelperService,
-    private route: ActivatedRoute
+    private sessionService: SessionService
   ) {
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
   }
@@ -64,7 +58,6 @@ export class AuthService {
     sessionStorage.setItem('id_token',token);
     sessionStorage.setItem('user', JSON.stringify(user));
     this.authToken = token;
-    this.user = user;
     this.headers = this.headers.append('Authorization', token);
   }
 
@@ -74,14 +67,11 @@ export class AuthService {
   }
 
   loggedIn(): boolean {
-    console.log(this.user);
-    
-    return !this.jwtHelper.isTokenExpired() && this.user$ != undefined;
+    return !this.jwtHelper.isTokenExpired() && this.sessionService.getCurrentUser() != null;
   }
 
   logout() {
     this.authToken = null;
-    this.user = null;
     sessionStorage.clear();
   }
 

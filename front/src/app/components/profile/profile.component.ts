@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
-import { User } from 'src/app/models/user';
+import { SessionService } from 'src/app/services/session.service';
+import { SessionUser } from 'src/app/models/sessionUser';
 
 @Component({
   selector: 'app-profile',
@@ -9,10 +9,10 @@ import { User } from 'src/app/models/user';
 })
 export class ProfileComponent implements OnInit {
 
-  user: User = this.authService.user$;
+  user: SessionUser = this.sessionService.getCurrentUser();
 
   constructor(
-    private authService: AuthService
+    private sessionService: SessionService
   ) { }
 
   ngOnInit() {}
