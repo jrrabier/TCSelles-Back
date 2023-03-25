@@ -4,6 +4,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
 import { SessionUser } from 'src/app/models/sessionUser';
 import { SessionService } from 'src/app/services/session.service';
+import { GlobalConstants } from 'src/app/common/global-constants';
 
 @Component({
   selector: 'app-navbar',
@@ -13,22 +14,25 @@ import { SessionService } from 'src/app/services/session.service';
 export class NavbarComponent implements OnInit {
     // @Input() sessionUser: SessionUser;
     sessionUser: SessionUser = this.sessionService.getCurrentUser();
+    DEFAULT_AVATAR: string;
 
-  constructor(
-    public authService: AuthService,
-    private router: Router,
-    private flashMessages: FlashMessagesService,
-    private sessionService: SessionService
-  ) {}
+    constructor(
+        public authService: AuthService,
+        private router: Router,
+        private flashMessages: FlashMessagesService,
+        private sessionService: SessionService,
+        public CONSTANTS: GlobalConstants
+    ) {}
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+        this.DEFAULT_AVATAR = this.CONSTANTS.DEFAULT_AVATAR;
+    }
 
-  logout() {
-    this.authService.logout();
-    this.flashMessages.show('Vous êtes déconnecté !', {cssClass: 'alert-warning', timeout: 3000});
+    logout() {
+        this.authService.logout();
+        this.flashMessages.show('Vous êtes déconnecté !', {cssClass: 'alert-warning', timeout: 3000});
 
-    this.router.navigate(['login']);
-    return false;
-  }
+        this.router.navigate(['login']);
+        return false;
+    }
 }

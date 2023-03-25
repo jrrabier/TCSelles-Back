@@ -9,12 +9,14 @@ import { SessionUser } from 'src/app/models/sessionUser';
 })
 export class ProfileComponent implements OnInit {
 
-  user: SessionUser = this.sessionService.getCurrentUser();
+  user: SessionUser;
 
   constructor(
     private sessionService: SessionService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.user = this.sessionService.getCurrentUser();
+  }
 
 }
