@@ -81,8 +81,4 @@ export function tokenGetter() {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
-  constructor(library: FaIconLibrary) {
-    library.addIconPacks(fas,far);
-  }
-}
+export class AppModule {}

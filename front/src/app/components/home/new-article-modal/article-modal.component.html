@@ -10,12 +10,6 @@
                 <form [formGroup]="articleForm">
                     <div class="row">
                         <div class="col">
-                            <div class="text-center">
-                                <cl-image public-id="articles/image_placeholder" class="img-thumbnail pointer" alt="avatar" (click)="inputFile.click()">
-                                    <cl-transformation gravity="face" width="200" crop="thumb">
-                                    </cl-transformation>
-                                </cl-image>
-                            </div>
                             <input #inputFile class="form-control" type="file" id="formFile" formControlName="image" [value]="">
                         </div>
                         <div class="col">

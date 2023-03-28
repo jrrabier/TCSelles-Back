@@ -32,10 +32,6 @@
                             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                         </div>
                         <div class="card-footer">
-                            <cl-image [public-id]="article.avatar" class="img-fluid rounded d-inline-block align-top" alt="avatar">
-                                <cl-transformation width="20" crop="scale">
-                                </cl-transformation>
-                            </cl-image>
                             {{ article.firstname | truncateFirstName }}&nbsp;{{ article.lastname | titlecase}}&nbsp;<small class="text-muted">le {{ article.created_at}}</small> 
                         </div>
                     </div>
