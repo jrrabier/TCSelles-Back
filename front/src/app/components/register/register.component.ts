@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ValidateService } from 'src/app/services/validate.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from "@angular/router";
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { GlobalConstants } from "src/app/common/global-constants";
 import sexesList from '../../../assets/lists/sexesList.json'
 import { ListInput } from 'src/app/interfaces/list-input';
@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     maskMobile;
     maskLicenceNb;
 
-    registerForm: FormGroup;
+    registerForm: UntypedFormGroup;
     showPassword: boolean = false;
     showconfirmPassword: boolean = false;
 
@@ -48,7 +48,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         private maskService: MasksService,
         private router: Router,
         private GLOBAL: GlobalConstants,
-        private fb: FormBuilder,
+        private fb: UntypedFormBuilder,
         private outilsService: OutilsService
     ) { }
 

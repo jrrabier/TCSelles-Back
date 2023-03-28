@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from "../../services/auth.service";
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { emailValidator } from 'src/app/shared/custom-validators.directive';
 import { Subscription } from 'rxjs';
 import resources from "../../../assets/resources.json";
@@ -20,8 +20,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     authenticateUser$: Subscription;
     forgotPassword$: Subscription;
     isRequesting: boolean = false;
-    loginForm: FormGroup;
-    forgotPasswordForm: FormGroup;
+    loginForm: UntypedFormGroup;
+    forgotPasswordForm: UntypedFormGroup;
 
     isForgotPassword: boolean = false;
     showPassword: boolean = false;
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         private authService: AuthService,
         private router: Router,
         private flashMessages: FlashMessagesService,
-        private fb: FormBuilder
+        private fb: UntypedFormBuilder
     ) { }
 
     ngOnInit() {

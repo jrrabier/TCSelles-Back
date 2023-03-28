@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Article } from 'src/app/models/article';
 import { ArticleCategory } from 'src/app/models/article_category';
@@ -20,14 +20,14 @@ export class HomeComponent implements OnInit {
     categoriesList: [ArticleCategory];
     articlesList: [Article];
 
-    categoriesForm: FormGroup;
-    articleForm: FormGroup;
+    categoriesForm: UntypedFormGroup;
+    articleForm: UntypedFormGroup;
 
     mode: string;
 
     constructor(
         private homeService: HomeService,
-        private fb: FormBuilder
+        private fb: UntypedFormBuilder
     ) {
         this.getArticlesCategories$ = new Subscription();
         this.getAllArticles$ = new Subscription();

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { GetAllArticlesResponse } from 'src/app/interfaces/get-all-articles-response';
 import { GetArticleCategoryResponse } from 'src/app/interfaces/get-article-category-response';
@@ -29,7 +29,7 @@ export class HomeService {
         return this.http.get<GetAllArticlesResponse>(`${environment.url}home/${category_id}`, {headers: this.headers});
     }
     
-    postArticle(article: FormGroup): Observable<PostResponse> {
+    postArticle(article: UntypedFormGroup): Observable<PostResponse> {
         return this.http.post<PostResponse>(`${environment.url}articles/add`, article, {headers: this.headers});
     }
 }

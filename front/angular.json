@@ -121,7 +121,6 @@
       }
     }
   },
-  "defaultProject": "tennisclub-front",
   "cli": {
     "analytics": false
   }

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { User } from '../models/user';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { environment } from 'src/environments/environment';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { PostResponse } from '../interfaces/post-response';
 import { AuthResponse } from '../interfaces/auth-response';
 import { SessionService } from './session.service';
@@ -29,12 +29,12 @@ export class AuthService {
     return this.http.post<PostResponse>(environment.url + 'users/register', user, {headers: this.headers});
   }
 
-  authenticateUser(user: FormGroup) {
+  authenticateUser(user: UntypedFormGroup) {
 
     return this.http.post<AuthResponse>(environment.url + 'users/authenticate', user, {headers: this.headers});
   }
 
-  forgotPassword(email: FormGroup) {
+  forgotPassword(email: UntypedFormGroup) {
 
     return this.http.post<PostResponse>(environment.url + 'users/forgot-password', email, {headers: this.headers});
   }

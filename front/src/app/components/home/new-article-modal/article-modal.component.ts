@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Subscription } from 'rxjs';
@@ -21,7 +21,7 @@ export class ArticleModalComponent implements OnInit, OnDestroy {
     @Input() mode: string ;
     @Output() refreshArticles: EventEmitter<boolean>;
 
-    articleForm: FormGroup;
+    articleForm: UntypedFormGroup;
 
     getArticlesCategories$: Subscription;
     postArticle$: Subscription;
@@ -35,7 +35,7 @@ export class ArticleModalComponent implements OnInit, OnDestroy {
     today: string;
 
     constructor(
-        private fb: FormBuilder,
+        private fb: UntypedFormBuilder,
         private homeService: HomeService,
         private flashMessages: FlashMessagesService,
         private outilsService: OutilsService,

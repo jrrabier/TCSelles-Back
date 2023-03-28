@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
@@ -14,13 +14,13 @@ import { passwordValidator } from 'src/app/shared/custom-validators.directive';
 export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
   queryParams$: Subscription;
-  forgotPasswordForm: FormGroup;
+  forgotPasswordForm: UntypedFormGroup;
   token: string;
   showNewPassword: boolean = false;
   showConfirmNewPassword: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
