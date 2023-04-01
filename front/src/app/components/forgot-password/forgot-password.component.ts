@@ -3,13 +3,13 @@ import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
 import { passwordValidator } from 'src/app/shared/custom-validators.directive';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.css']
+  styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
@@ -24,7 +24,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private flashMessages: FlashMessagesService
+    private notifService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -49,15 +49,15 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   onFormSubmit() {
     this.authService.resetPassword(this.forgotPasswordForm.value, this.token).subscribe((result) => {
       if (result.success) {
-        this.flashMessages.show(result.msg, {cssClass: 'alert-success', timeout: 5000});
+        this.notifService.showSuccess(result.msg)
         this.router.navigate(['/login']);
       } else {
-        this.flashMessages.show(result.msg, {cssClass: 'alert-danger', timeout: 5000});
+        this.notifService.showDanger(result.msg)
       }
 
     },
     () => {
-      this.flashMessages.show(`Votre lien a expiré`, {cssClass: 'alert-danger', timeout: 5000});
+        this.notifService.showDanger(`Votre lien a expiré`)
     });
   }
 

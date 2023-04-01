@@ -1,17 +1,17 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FlashMessagesService } from 'angular2-flash-messages';
 import { Subscription } from 'rxjs';
 import { ArticleCategory } from 'src/app/models/article_category';
 import { OutilsService } from 'src/app/services/outils.service';
 import { HomeService } from '../home.service';
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'app-article-modal',
   templateUrl: './article-modal.component.html',
-  styleUrls: ['./article-modal.component.css']
+  styleUrls: ['./article-modal.component.scss']
 })
 export class ArticleModalComponent implements OnInit, OnDestroy {
 
@@ -37,7 +37,7 @@ export class ArticleModalComponent implements OnInit, OnDestroy {
     constructor(
         private fb: UntypedFormBuilder,
         private homeService: HomeService,
-        private flashMessages: FlashMessagesService,
+        private notifService: NotificationService,
         private outilsService: OutilsService,
         private router: Router
     ) {
@@ -88,19 +88,17 @@ export class ArticleModalComponent implements OnInit, OnDestroy {
             result => {
                 if (result.success) {
                     
-                this.flashMessages.show(result.msg, {cssClass: 'alert-success', timeout: 3000});
+                this.notifService.showSuccess(result.msg)
                 this.closeModal();
                 this.refreshArticles.emit(true);
                 } else {
                     
-                this.flashMessages.show(result.msg, {cssClass: 'alert-danger', timeout: 3000});
+                this.notifService.showDanger(result.msg)
                 }
             },
             error => {
-                this.flashMessages.show(error, {cssClass: 'alert-danger', timeout: 3000});
-
+                this.notifService.showDanger(error)
             }
-            
         )
     }
 

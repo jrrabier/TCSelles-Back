@@ -9,7 +9,6 @@ import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ReactiveFormsModule } from "@angular/forms";
 import { ValidateService } from "./services/validate.service";
-import { FlashMessagesModule, FlashMessagesService } from "angular2-flash-messages";
 import { HttpClientModule } from "@angular/common/http";
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './guards/auth.guard';
@@ -23,13 +22,14 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { TextMaskModule } from 'angular2-text-mask';
 import { InputComponent } from './shared/components/input/input.component';
 import { LoadingComponent } from './shared/components/loading/loading.component';
-import { CloudinaryModule } from '@cloudinary/angular-5.x';
-import * as Cloudinary from "cloudinary-core";
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { TruncateFirstNamePipe } from './pipes/truncate-first-name.pipe';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { HomeComponent } from './components/home/home.component';
 import { ArticleModalComponent } from './components/home/new-article-modal/article-modal.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationsContainer } from './shared/components/notification/notifications-container.component';
 
 export function tokenGetter() {
   return sessionStorage.getItem('id_token');
@@ -53,10 +53,10 @@ export function tokenGetter() {
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     CKEditorModule,
     AppRoutingModule,
-    FlashMessagesModule,
     HttpClientModule,
     JwtModule.forRoot({
       config: {
@@ -65,20 +65,23 @@ export function tokenGetter() {
     }),
     FontAwesomeModule,
     TextMaskModule,
-    CloudinaryModule.forRoot(Cloudinary, { 
-        cloud_name: 'hraxyhwzc',
-        secure: true,
-        upload_preset: 'articles'
-    })
+    NotificationsContainer
   ],
   providers: [
     ValidateService,
-    FlashMessagesService,
     JwtHelperService,
     AuthGuard,
     ResetPasswordGuard,
-    GlobalConstants
+    GlobalConstants,
+    NgbModule,
+    NotificationsContainer
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+    constructor(
+        library: FaIconLibrary
+    ) {
+        library.addIconPacks(fas, far);
+    }
+}

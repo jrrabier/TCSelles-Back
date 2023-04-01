@@ -6,15 +6,14 @@
                     <img class="img-fluid rounded" src={{imgSrc}} alt="avatar">
                 </div>
                 <div class="d-flex flex-column col-6 my-auto">
-                    <div *ngFor="let sex of sexesList" role="group" aria-label="Bouton radios pour choisir le sexe">
-                        <input type="radio" class="btn-check" formControlName="sex" [value]="sex.value" [id]="sex.id" autocomplete="off" checked="" required>
-                        <label class="btn btn-outline-secondary" [for]="sex.id">
-                            {{ sex.label }}&nbsp;
-                            <fa-icon [icon]="sex.icon"></fa-icon>
-                        </label>
-                        <div *ngIf="registerForm.get('sex').getError('required')" class="invalid-feedback">
-                            {{ rsc.invalidFeedback.required }}
-                        </div>
+                    <div class="btn-group" role="group" aria-label="Bouton radios pour choisir le sexe">
+                        <input type="radio" class="btn-check" formControlName="sex" value="M" id="sexM" autocomplete="off">
+                        <label class="btn btn-outline-success" for="sexM">Homme&nbsp;<fa-icon [icon]="faMars"></fa-icon></label>
+                        <input type="radio" class="btn-check" formControlName="sex" value="F" id="sexF" autocomplete="off">
+                        <label class="btn btn-outline-success" for="sexF">Femme&nbsp;<fa-icon [icon]="faVenus"></fa-icon></label>
+                    </div>
+                    <div *ngIf="registerForm.get('sex').getError('required')" class="invalid-feedback">
+                        {{ rsc.invalidFeedback.required }}
                     </div>
                 </div>
             </div>

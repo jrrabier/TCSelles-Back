@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ValidateService } from 'src/app/services/validate.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from "@angular/router";
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { GlobalConstants } from "src/app/common/global-constants";
@@ -12,13 +11,19 @@ import resources from "../../../assets/resources.json";
 import { MasksService } from 'src/app/services/masks.service';
 import { Level } from 'src/app/interfaces/level';
 import { OutilsService } from 'src/app/services/outils.service';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
+
+    // icons
+    faMars = faMars;
+    faVenus = faVenus;
 
     getLevels$: Subscription;
 
@@ -43,7 +48,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     constructor(
         private validateService: ValidateService,
-        private flashMessages: FlashMessagesService,
+        private notifService: NotificationService,
         private registerService: RegisterService,
         private maskService: MasksService,
         private router: Router,
@@ -58,7 +63,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             if (res.success) {
             this.levels = res.levels;
             } else {
-            this.flashMessages.show(res.msg, {cssClass: 'alert-danger', timeout: 2000});
+                this.notifService.showDanger(res.msg)
             }
         }
         );
@@ -89,14 +94,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
         // Required fields
         if (!this.registerForm.valid) {
-            this.flashMessages.show('Veuillez renseigner tous les champs obligatoires !', {cssClass: 'alert-danger', timeout: 3000});
+            this.notifService.showDanger('Veuillez renseigner tous les champs obligatoires !')
             this.registerForm.invalid;
             return;
         }
 
         // Validate email
         if(!this.validateService.isMailValid(this.registerForm.value.mail)) {
-            this.flashMessages.show('Veuillez renseigner un email valide !', {cssClass: 'alert-danger', timeout: 3000});
+            this.notifService.showDanger('Veuillez renseigner un email valide !')
             return;
         }
 
@@ -104,10 +109,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.registerService.registerUser(this.registerForm.value)
         .subscribe(data => {
             if (data.success) {
-                this.flashMessages.show('Votre compte est bien créé !', {cssClass: 'alert-success', timeout: 3000});
+                this.notifService.showSuccess('Votre compte est bien créé !')
                 this.router.navigate(['/login']);
             } else {
-                this.flashMessages.show('Une erreur est survenue !', {cssClass: 'alert-danger', timeout: 3000});
+                this.notifService.showDanger(data.msg)
                 this.router.navigate(['/register']);
             }
         });

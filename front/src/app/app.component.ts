@@ -1,25 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionUser } from './models/sessionUser';
+import { NotificationsContainer } from "./shared/components/notification/notifications-container.component";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
 
-    public sessionUser: SessionUser;
-
-    constructor () {}
+    constructor (
+        public notifications: NotificationsContainer
+    ) {}
 
     ngOnInit(){
-    }
-
-    onActivate($event) {
-        $event.user = this.sessionUser;
-    }
-
-    onDeactivate($event) {
-        this.sessionUser = $event.user;
     }
 }
