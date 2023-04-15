@@ -171,7 +171,7 @@ router.post('/update', (req, res) => {
 
 router.route('/forgot-password')
     .post((req, res) => {
-        const mail = req.body.mail;
+        const mail = req.body.email;
 
         Users.getUserByMail(mail, (err, user) => {
             if (err) {

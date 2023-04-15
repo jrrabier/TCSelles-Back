@@ -40,7 +40,6 @@ export function tokenGetter() {
     AppComponent,
     HomeComponent,
     ArticleModalComponent,
-    NavbarComponent,
     LoginComponent,
     RegisterComponent,
     ProfileComponent,
@@ -65,7 +64,8 @@ export function tokenGetter() {
     }),
     FontAwesomeModule,
     TextMaskModule,
-    NotificationsContainer
+    NotificationsContainer,
+    NavbarComponent
   ],
   providers: [
     ValidateService,

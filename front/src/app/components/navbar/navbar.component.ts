@@ -1,20 +1,25 @@
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { SessionUser } from 'src/app/models/sessionUser';
 import { SessionService } from 'src/app/services/session.service';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { NotificationService } from 'src/app/shared/services/notification.service';
+import { NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
+  standalone: true,
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
+  imports: [NgbCollapseModule, RouterLink, RouterLinkActive, NgIf]
 })
 export class NavbarComponent implements OnInit, AfterContentChecked {
 
     sessionUser: SessionUser;
     DEFAULT_AVATAR: string;
+    isNavbarCollapsed: boolean = true;
 
     constructor(
         public authService: AuthService,
