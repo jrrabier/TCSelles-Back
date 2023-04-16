@@ -21,7 +21,12 @@ module.exports.addArticle = (newArticle, callback) => {
  * @param callback 
  */
 module.exports.getAllArticles = (callback) => {
-    let req = 'SELECT id, title, content, image, created_at, updated_at, users_id, articles_categories_id FROM tennisclub.articles';
+    let req = 
+        'SELECT a.id, a.title, a.content, a.image, DATE_FORMAT(a.created_at, "%d/%m/%Y") as created_at, a.updated_at, u.lastname, u.firstname, u.avatar, ac.label '+
+        'FROM tennisclub.articles a '+
+        'INNER JOIN users u ON a.users_id = u.id '+
+        'INNER JOIN articles_categories ac ON a.articles_categories_id = ac.id '+
+        'ORDER BY a.created_at DESC';
 
     connection.query(req, (err, result) => {
         if (err) {

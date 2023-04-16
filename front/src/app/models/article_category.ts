@@ -1,11 +1,9 @@
 export class ArticleCategory {
+	label: string;
+	value: string;
 
-    label: String;
-    value: String;
-  
-      constructor($label: String, $value: String) {
-          this.label = $label;
-          this.value = $value;
-    }
-  }
-  
+	constructor($label: string, $value: string) {
+		this.label = $label;
+		this.value = $value;
+	}
+}

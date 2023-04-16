@@ -1,25 +1,43 @@
 export class User {
+	mail: string;
+	psw: string;
+	lastname: string;
+	firstname: string;
+	birthdate: Date;
+	phone: string;
+	avatar: string;
+	address: string;
+	postalcode: string;
+	city: string;
+	licence_nb: string;
+	role: string;
+	created_at: Date;
+	updated_at: Date;
+	team_id: number;
+	sex_id: string;
+	club_id: number;
+	lvl_id: number;
 
-  mail: String;
-  psw: String;
-  lastname: String;
-  firstname: String;
-  birthdate: Date;
-  phone: String;
-  avatar: String;
-  address: String;
-  postalcode: String;
-  city: String;
-  licence_nb: String;
-  role: String;
-  created_at: Date;
-  updated_at: Date;
-  team_id: Number;
-  sex_id: String;
-  club_id: Number;
-  lvl_id: Number;
-
-	constructor($mail: String, $psw: String, $lastname: String, $firstname: String, $birthdate: Date, $phone: String, $avatar: String, $address: String, $postalcode: String, $city: String, $licence_nb: String, $role: String, $created_at: Date, $updated_at: Date, $team_id: Number, $sex_id: String, $club_id: Number, $lvl_id: Number) {
+	constructor(
+		$mail: string,
+		$psw: string,
+		$lastname: string,
+		$firstname: string,
+		$birthdate: Date,
+		$phone: string,
+		$avatar: string,
+		$address: string,
+		$postalcode: string,
+		$city: string,
+		$licence_nb: string,
+		$role: string,
+		$created_at: Date,
+		$updated_at: Date,
+		$team_id: number,
+		$sex_id: string,
+		$club_id: number,
+		$lvl_id: number
+	) {
 		this.mail = $mail;
 		this.psw = $psw;
 		this.lastname = $lastname;
@@ -38,5 +56,5 @@ export class User {
 		this.sex_id = $sex_id;
 		this.club_id = $club_id;
 		this.lvl_id = $lvl_id;
-  }
+	}
 }
